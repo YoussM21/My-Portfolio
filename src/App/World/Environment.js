@@ -5,8 +5,10 @@ export default class Environment {
     constructor() {
         this.app = new App();
         this.scene = this.app.scene;
+        this.physics = this.app.world.physics;
 
         this.loadEnvironment();
+        this.addMeshes();
     }
 
     loadEnvironment() {
@@ -20,5 +22,21 @@ export default class Environment {
         this.directionalLight.castShadow = true;
         this.scene.add(this.directionalLight);
 
+    }
+
+    addMeshes() {
+        const group = new THREE.Group();
+        group.position.y = 10;
+        group.rotation.x = 0.5;
+        this.scene.add(group);
+
+        const geometry = new THREE.BoxGeometry(3, 7, 1);
+        const material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+        this.cubeMesh = new THREE.Mesh(geometry, material);
+        this.cubeMesh.position.y = 10;
+        this.cubeMesh.rotateX(0.5);
+        this.cubeMesh.rotateZ(0.5);
+        group.add(this.cubeMesh);
+        this.physics.add(this.cubeMesh);
     }
 }

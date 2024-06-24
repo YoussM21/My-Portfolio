@@ -6,3 +6,8 @@ import { createStore } from 'zustand/vanilla';
     pixelRatio: Math.min(window.devicePixelRatio, 2)
 
 }));
+
+export const appStateStore = createStore(() => ({
+    physicsReady: false,
+
+}));

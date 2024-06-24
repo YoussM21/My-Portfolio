@@ -40,7 +40,7 @@ export default class Preloader {
             window.setTimeout(() => {
                 this.overlay.remove();
                 this.startButton.remove();
-            }, 200);
+            }, 2000);
         }, {once: true});
     }
 }
