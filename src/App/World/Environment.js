@@ -37,6 +37,11 @@ export default class Environment {
         this.cubeMesh.rotateX(0.5);
         this.cubeMesh.rotateZ(0.5);
         group.add(this.cubeMesh);
-        this.physics.add(this.cubeMesh);
+        this.physics.add(this.cubeMesh, 'dynamic');
+
+        const groundGeometry = new THREE.BoxGeometry(20,1,20);
+        const groundMaterial = new THREE.MeshStandardMaterial({ color: 'turquoise' });
+        this.groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
+        this.scene.add(this.groundMesh, 'fixed');
     }
 }

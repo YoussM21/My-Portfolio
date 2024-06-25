@@ -19,12 +19,6 @@ export default class Physics {
             this.world = new RAPIER.World(gravity);
             this.rapier = RAPIER;
             
-    
-            const groundGeometry = new THREE.BoxGeometry(20,1,20);
-            const groundMaterial = new THREE.MeshStandardMaterial({ color: 'turquoise' });
-            this.groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
-            this.scene.add(this.groundMesh);
-
             // Rapier
             const groundRigidBodyType = RAPIER.RigidBodyDesc.fixed();
             this.groundRigidBody = this.world.createRigidBody(groundRigidBodyType);
@@ -37,8 +31,16 @@ export default class Physics {
         });
     }
 
-    add(mesh) {
-        const rigidBodyType = this.rapier.RigidBodyDesc.dynamic();
+    add(mesh, type) {
+
+        let rigidBodyType;
+
+        if (type === 'dynamic') {
+            rigidBodyType = this.rapier.RigidBodyDesc.dynamic();
+        } else if (type === 'fixed'){
+            rigidBodyType = this.rapier.RigidBodyDesc.fixed();
+        }
+
         this.rigidBody = this.world.createRigidBody(rigidBodyType);
 
         const worldposition = mesh.getWorldPosition(new THREE.Vector3());
