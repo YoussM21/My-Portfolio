@@ -31,8 +31,9 @@ export default class Physics {
         });
     }
 
-    add(mesh, type) {
+    add(mesh, type, collider) {
 
+        // defining the rigid body type
         let rigidBodyType;
 
         if (type === 'dynamic') {
@@ -40,20 +41,35 @@ export default class Physics {
         } else if (type === 'fixed'){
             rigidBodyType = this.rapier.RigidBodyDesc.fixed();
         }
-
         this.rigidBody = this.world.createRigidBody(rigidBodyType);
 
+        let colliderType;
+
+        switch (collider) {
+            case "cuboid":
+                const dimensions = this.computeCubiodDimensions(mesh);
+                colliderType = this.rapier.ColliderDesc.cuboid(dimensions.x/2, dimensions.y/2, dimensions.z/2);
+                this.world.createCollider(colliderType, this.rigidBody);
+                break;
+            case "ball":
+                const radius = this.computeBallDimensions(mesh);
+                colliderType = this.rapier.ColliderDesc.ball(radius);
+                this.world.createCollider(colliderType, this.rigidBody);
+                break;
+            case "trimesh":
+                console.log('capsule')
+                break;
+        }
+        
+        // defining the collider type
+
+        
+        // setting the initial position and rotation of the rigid body
         const worldposition = mesh.getWorldPosition(new THREE.Vector3());
         const worldrotation = mesh.getWorldQuaternion(new THREE.Quaternion());
-
         this.rigidBody.setTranslation(worldposition)
         this.rigidBody.setRotation(worldrotation)
 
-        const dimensions = this.computeCubiodDimensions(mesh);
-
-        const colliderType = this.rapier.ColliderDesc.cuboid(dimensions.x/2, dimensions.y/2, dimensions.z/2);
-        this.world.createCollider(colliderType, this.rigidBody);
-        
         this.meshMap.set(mesh, this.rigidBody);
     }
 
@@ -64,6 +80,14 @@ export default class Physics {
         size.multiply(worldScale);
 
         return size;
+    }
+
+    computeBallDimensions(mesh) {
+        mesh.geometry.computeBoundingSphere();
+        const radius = mesh.geometry.boundingSphere.radius;
+        const worldScale = mesh.getWorldScale(new THREE.Vector3());
+        const maxScale = Math.max(worldScale.x, worldScale.y, worldScale.z)
+        return radius * maxScale;
     }
 
     loop() {
