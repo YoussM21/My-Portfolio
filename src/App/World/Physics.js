@@ -63,8 +63,6 @@ export default class Physics {
                 break;
         }
         
-        // defining the collider type
-
         
         // setting the initial position and rotation of the rigid body
         const worldposition = mesh.getWorldPosition(new THREE.Vector3());
