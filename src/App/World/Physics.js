@@ -57,7 +57,9 @@ export default class Physics {
                 this.world.createCollider(colliderType, this.rigidBody);
                 break;
             case "trimesh":
-                console.log('capsule')
+                const { scaledVertices, indices } = this.computeTrimeshDimensions(mesh);
+                colliderType = this.rapier.ColliderDesc.trimesh(scaledVertices, indices);
+                this.world.createCollider(colliderType, this.rigidBody);
                 break;
         }
         
@@ -90,6 +92,20 @@ export default class Physics {
         return radius * maxScale;
     }
 
+    computeTrimeshDimensions(mesh) {
+        const vertices = mesh.geometry.attributes.position.array;
+        const indices = mesh.geometry.index.array;
+        const worldScale = mesh.getWorldScale(new THREE.Vector3());
+
+        const scaledVertices = []
+        for (let i = 0; i < vertices.length; i += 3) {
+            scaledVertices.push(vertices[i] * worldScale.x);
+            scaledVertices.push(vertices[i + 1] * worldScale.y);
+            scaledVertices.push(vertices[i + 2] * worldScale.z);
+        }
+        return { scaledVertices, indices };
+    }
+
     loop() {
         if (!this.rapierLoaded) return
             
@@ -103,7 +119,7 @@ export default class Physics {
 
             position.applyMatrix4(
                 new THREE.Matrix4().copy(mesh.parent.matrixWorld).invert()
-            )
+            );
 
             const inverseParentMatrix = new THREE.Matrix4()
             .extractRotation(mesh.parent.matrixWorld)
