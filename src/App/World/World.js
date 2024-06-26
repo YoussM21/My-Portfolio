@@ -20,7 +20,6 @@ export default class World {
             
         this.environment = new Environment();
         this.charater = new Character();
-        this.instantiated = true;
             }
         })
 
@@ -30,5 +29,7 @@ export default class World {
 
     loop(deltaTime, elapsedTime) {
         this.physics.loop();
+        if (this.charater) this.charater.loop();
+
     }
 }
