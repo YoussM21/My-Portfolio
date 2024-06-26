@@ -26,6 +26,7 @@ export default class Camera {
         400
       );
       this.instance.position.z = 100;
+      this.instance.position.y = 20;
   }
 
   // add orbit controls
