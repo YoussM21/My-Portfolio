@@ -97,12 +97,19 @@ export default class Physics {
         const indices = mesh.geometry.index.array;
         const worldScale = mesh.getWorldScale(new THREE.Vector3());
 
-        const scaledVertices = []
-        for (let i = 0; i < vertices.length; i += 3) {
-            scaledVertices.push(vertices[i] * worldScale.x);
-            scaledVertices.push(vertices[i + 1] * worldScale.y);
-            scaledVertices.push(vertices[i + 2] * worldScale.z);
-        }
+        // methode 1
+        // const scaledVertices = []
+        // for (let i = 0; i < vertices.length; i += 3) {
+        //     scaledVertices.push(vertices[i] * worldScale.x);
+        //     scaledVertices.push(vertices[i + 1] * worldScale.y);
+        //     scaledVertices.push(vertices[i + 2] * worldScale.z);
+        // }
+
+        // methode 2
+        const scaledVertices = vertices.map((vertex, index) => {
+            return vertex * worldScale.getComponent(index % 3);
+        })
+
         return { scaledVertices, indices };
     }
 
