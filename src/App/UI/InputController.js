@@ -4,6 +4,7 @@ export default class InputController {
     constructor() {
         this.startListening();
         this.inputStore = inputStore;
+        this.keyPressed = {};
     }
 
     startListening() {
@@ -12,6 +13,7 @@ export default class InputController {
     }
 
     onKeyDown(event) {
+        if (this.keyPressed[event.code]) return
         switch (event.code) {
             case 'KeyW':
             case 'ArrowUp':
@@ -29,8 +31,8 @@ export default class InputController {
             case 'ArrowRight':
                 inputStore.setState({right: true});
                 break;
-            
         }
+        this.keyPressed[event.code] = true;
     }
 
     onKeyUp(event) {
@@ -50,10 +52,8 @@ export default class InputController {
             case 'KeyD':
             case 'ArrowRight':
                 inputStore.setState({right: false});
-                break;
-            
+                break;   
         }
+        this.keyPressed[event.code] = false;
     }
-
-
 }
