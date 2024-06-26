@@ -14,15 +14,19 @@ export default class InputController {
     onKeyDown(event) {
         switch (event.code) {
             case 'KeyW':
+            case 'ArrowUp':
                 inputStore.setState({forward: true});
                 break;  
             case 'KeyA':
+            case 'ArrowLeft':
                 inputStore.setState({left: true});
                 break;
             case 'KeyS':
+            case 'ArrowDown':
                 inputStore.setState({backward: true});
                 break;
             case 'KeyD':
+            case 'ArrowRight':
                 inputStore.setState({right: true});
                 break;
             
@@ -32,18 +36,24 @@ export default class InputController {
     onKeyUp(event) {
         switch (event.code) {
             case 'KeyW':
+            case 'ArrowUp':
                 inputStore.setState({forward: false});
                 break;  
             case 'KeyA':
+            case 'ArrowLeft':
                 inputStore.setState({left: false});
                 break;
             case 'KeyS':
+            case 'ArrowDown':
                 inputStore.setState({backward: false});
                 break;
             case 'KeyD':
+            case 'ArrowRight':
                 inputStore.setState({right: false});
                 break;
             
         }
     }
+
+
 }
