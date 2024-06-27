@@ -35,11 +35,16 @@ export default class Physics {
 
         // defining the rigid body type
         let rigidBodyType;
-
-        if (type === 'dynamic') {
+        switch (type) {
+        case 'dynamic': 
             rigidBodyType = this.rapier.RigidBodyDesc.dynamic();
-        } else if (type === 'fixed'){
+            break;
+        case 'fixed':
             rigidBodyType = this.rapier.RigidBodyDesc.fixed();
+            break;
+        case 'kinematic':
+            rigidBodyType = this.rapier.RigidBodyDesc.kinematicPositionBased();
+            break;
         }
         this.rigidBody = this.world.createRigidBody(rigidBodyType);
 
@@ -71,6 +76,7 @@ export default class Physics {
         this.rigidBody.setRotation(worldrotation)
 
         this.meshMap.set(mesh, this.rigidBody);
+        return this.rigidBody;
     }
 
     computeCubiodDimensions(mesh) {
