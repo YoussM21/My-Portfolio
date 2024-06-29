@@ -65,8 +65,8 @@ export default class Camera {
       // const cameraLookAt = new THREE.Vector3().copy(this.character.translation());
       // cameraLookAt.y += 10;
 
-      this.instance.position.copy(cameraOffset);
-      this.controls.target.copy(targetOffset);
+      this.instance.position.lerp(cameraOffset, 0.1);
+      this.controls.target.lerp(targetOffset, 0.1);
 
     }
     
