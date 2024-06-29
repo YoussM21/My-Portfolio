@@ -19,7 +19,7 @@ export default class World {
             if (state.physicsReady) {
             
         this.environment = new Environment();
-        this.charater = new Character();
+        this.character = new Character();
             }
         })
 
@@ -29,7 +29,7 @@ export default class World {
 
     loop(deltaTime, elapsedTime) {
         this.physics.loop();
-        if (this.charater) this.charater.loop(deltaTime);
+        if (this.character) this.character.loop(deltaTime);
 
     }
 }

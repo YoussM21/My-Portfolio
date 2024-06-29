@@ -49,6 +49,27 @@ export default class Camera {
   // render loop
   loop() {
     this.controls.update();
-  }
+    this.character = this.app.world.character?.rigidBody;
+    if (this.character) {
+
+      const characterPosition = this.character.translation();
+      const characterRotation = this.character.rotation()
+
+      const cameraOffset = new THREE.Vector3(0, 30, 55);
+      cameraOffset.applyQuaternion(characterRotation);
+      cameraOffset.add(characterPosition);
+
+      const targetOffset = new THREE.Vector3(0, 10, 0);
+      targetOffset.applyQuaternion(characterRotation);
+      targetOffset.add(characterPosition);
+      // const cameraLookAt = new THREE.Vector3().copy(this.character.translation());
+      // cameraLookAt.y += 10;
+
+      this.instance.position.copy(cameraOffset);
+      this.controls.target.copy(targetOffset);
+
+    }
+    
+    }
 
 }
