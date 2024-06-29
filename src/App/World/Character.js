@@ -1,50 +1,86 @@
-import * as THREE from 'three';
-import App from '../App.js';
+import * as THREE from "three";
+import App from "../App.js";
 
-import { inputStore } from '../Utils/Store.js';
+import { inputStore } from "../Utils/Store.js";
 
 export default class Character {
-    constructor() {
-        this.app = new App();
-        this.scene = this.app.scene;
-        this.physics = this.app.world.physics;
+  constructor() {
+    this.app = new App();
+    this.scene = this.app.scene;
+    this.physics = this.app.world.physics;
 
-        inputStore.subscribe((state) => {
-            this.forward = state.forward;
-            this.backward = state.backward;
-            this.left = state.left;
-            this.right = state.right;
-        })
+    inputStore.subscribe((state) => {
+      this.forward = state.forward;
+      this.backward = state.backward;
+      this.left = state.left;
+      this.right = state.right;
+    });
 
-        this.instantiateCharacter();
+    this.instantiateCharacter();
+  }
+
+  //create character
+  instantiateCharacter() {
+    const geometry = new THREE.BoxGeometry(2, 2, 2);
+    const material = new THREE.MeshStandardMaterial({
+      color: "magenta",
+      wireframe: true,
+    });
+    this.character = new THREE.Mesh(geometry, material);
+    this.character.position.set(0, 2.5, 0);
+    this.scene.add(this.character);
+
+    // create rigid body 
+    this.rigidBodyType =
+      this.physics.rapier.RigidBodyDesc.kinematicPositionBased();
+    this.rigidBody = this.physics.world.createRigidBody(this.rigidBodyType);
+
+    //create collider
+    this.colliderType = this.physics.rapier.ColliderDesc.cuboid(1, 1, 1);
+    this.collider = this.physics.world.createCollider(
+      this.colliderType,
+      this.rigidBody
+    );
+
+    // set rigid body position to character position
+    const worldPosition = this.character.getWorldPosition(new THREE.Vector3());
+    const worldRotation = this.character.getWorldQuaternion(
+      new THREE.Quaternion()
+    );
+    this.rigidBody.setTranslation(worldPosition);
+    this.rigidBody.setRotation(worldRotation);
+
+    this.characterController = this.physics.world.createCharacterController(0.01)
+    this.characterController.setApplyImpulsesToDynamicBodies(true) 
+    this.characterController.enableAutostep(3, 0.1, false)
+    this.characterController.enableSnapToGround(1)
+  }
+
+  loop(deltaTime) {
+    const movement = new THREE.Vector3();
+    if (this.forward) {
+        movement.z -= 1;
     }
-
-    instantiateCharacter() {
-        const geometry = new THREE.SphereGeometry(1, 32, 32);
-        const material = new THREE.MeshStandardMaterial({ color: 'magenta', wireframe: true});
-        this.character = new THREE.Mesh(geometry, material);
-        this.character.position.set(0, 2.5, 0); 
-        this.scene.add(this.character);
-        this.characterRigidBody = this.physics.add(this.character, 'kinematic', 'ball');
-        console.log(this.characterRigidBody);
+    if (this.backward) {
+        movement.z += 1;
     }
-
-    loop() {
-        let { x, y, z } = this.characterRigidBody.translation()
-       
-        if (this.forward) {
-            z = z - 0.1;
-        }
-        if (this.backward) {
-            z = z + 0.1;
-        }
-        if (this.left) {
-            x = x - 0.1;
-        }
-        if (this.right) {
-            x = x + 0.1;
-        }
-        console.log(x, y, z);
-        this.characterRigidBody.setNextKinematicTranslation({x, y, z});
+    if (this.left) {
+        movement.x -= 1;
     }
+    if (this.right) {
+        movement.x += 1;
+    }
+    movement.normalize().multiplyScalar(deltaTime * 20);
+    movement.y -= 1
+
+    this.characterController.computeColliderMovement(this.collider, movement)
+    
+    const newPosition = new THREE.Vector3()
+        .copy(this.rigidBody.translation())
+        .add(this.characterController.computedMovement());
+    
+    this.rigidBody.setNextKinematicTranslation(newPosition);
+    this.character.position.copy(this.rigidBody.translation());
+
+  }
 }
