@@ -23,7 +23,7 @@ export default class Camera {
         35,
         this.sizes.width /this.sizes.height,
         1,
-        400
+        600
       );
       this.instance.position.z = 100;
       this.instance.position.y = 20;
@@ -41,19 +41,17 @@ export default class Camera {
       this.instance.aspect = sizes.width / sizes.height;
       this.instance.updateProjectionMatrix();
     });
-      
-
   }
     
 
   // render loop
   loop() {
     this.controls.update();
-    this.character = this.app.world.character?.rigidBody;
-    if (this.character) {
+    this.characterController = this.app.world.characterController?.rigidBody;
+    if (this.characterController) {
 
-      const characterPosition = this.character.translation();
-      const characterRotation = this.character.rotation()
+      const characterPosition = this.characterController.translation();
+      const characterRotation = this.characterController.rotation()
 
       const cameraOffset = new THREE.Vector3(0, 30, 55);
       cameraOffset.applyQuaternion(characterRotation);
