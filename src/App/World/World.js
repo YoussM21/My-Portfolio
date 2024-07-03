@@ -10,22 +10,23 @@ import { appStateStore } from '../Utils/Store.js';
 
 export default class World {
     constructor() {
-        this.app = new App();
-        this.scene = this.app.scene;
-        
-        this.physics = new Physics();
+      this.app = new App();
+      this.scene = this.app.scene;
 
-        //create world classes
-        appStateStore.subscribe(state => {
-            if (state.physicsReady) {
-            
-        this.environment = new Environment();
-        this.character = new Character();
-        this.characterController = new CharacterController()
-            }
-        })
+      this.physics = new Physics();
 
-        this.loop();
+      //create world classes
+      const unsub = appStateStore.subscribe((state) => {
+        if (state.physicsReady && state.assetsReady) {
+          this.environment = new Environment();
+          this.character = new Character();
+          this.characterController = new CharacterController();
+
+          unsub();
+        }
+      });
+
+      this.loop();
     }
 
 

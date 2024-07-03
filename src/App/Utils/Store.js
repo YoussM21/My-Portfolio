@@ -9,6 +9,7 @@ import { createStore } from 'zustand/vanilla';
 
 export const appStateStore = createStore(() => ({
     physicsReady: false,
+    assetsReady: false,
 
 }));
 
