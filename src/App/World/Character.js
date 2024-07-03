@@ -10,6 +10,11 @@ export default class Character {
     this.assetStore = assetStore.getState();
     this.avatar = this.assetStore.loadedAssets.avatar;
 
+    this.instantiateCharater();
+
+  }
+
+  instantiateCharater() {
     const geometry = new THREE.BoxGeometry(2, 5, 2);
     const material = new THREE.MeshStandardMaterial({
       color: "magenta",
