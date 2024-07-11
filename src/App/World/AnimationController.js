@@ -1,12 +1,15 @@
 import * as THREE from "three";
 
 import App from "../App.js";
+import { inputStore } from "../Utils/Store.js";
 
 export default class AnimationController {
     constructor() {
         this.app = new App();
         this.scene = this.app.scene;
         this.avatar = this.app.world.character.avatar;
+
+        inputStore.subscribe((input) => this.onInput(input));
 
         this.instantiateAnimations();
     }
@@ -20,10 +23,32 @@ export default class AnimationController {
             this.animations.set(clip.name, this.mixer.clipAction(clip));
         });
 
-        this.animations.get('idle').play();
-
-
+        this.currentAction = this.animations.get('idle')
+        this.currentAction.play();
         
+    }
+
+    playAnimation(name){
+        if (this.currentAction === this.animations.get(name)) return;
+        const action = this.animations.get(name);
+        action.reset();
+        action.play();
+        action.crossFadeFrom(this.currentAction, 0.2 )
+
+        this.currentAction = action;
+    }
+
+    onInput(input) {
+        if(
+            input.forward ||
+            input.backward ||
+            input.left ||
+            input.right
+        ) {
+            this.playAnimation('run');
+        } else {
+            this.playAnimation('idle');
+        }
     }
 
     loop(deltaTime) {

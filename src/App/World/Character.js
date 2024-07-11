@@ -15,7 +15,7 @@ export default class Character {
   }
 
   instantiateCharater() {
-    const geometry = new THREE.BoxGeometry(2, 5, 2);
+    const geometry = new THREE.BoxGeometry(.6, 2, .6);
     const material = new THREE.MeshStandardMaterial({
       color: "magenta",
       wireframe: true,
@@ -26,8 +26,7 @@ export default class Character {
     this.scene.add(this.instance);
 
     const avatar = this.avatar.scene;
-    avatar.scale.setScalar(3);
-    avatar.position.y = -2.5;
+    avatar.position.y = -1;
     avatar.rotation.y = Math.PI;
     this.instance.add(avatar);
 

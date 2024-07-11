@@ -29,7 +29,7 @@ export default class CharacterController {
     this.rigidBody = this.physics.world.createRigidBody(this.rigidBodyType);
 
     //create collider
-    this.colliderType = this.physics.rapier.ColliderDesc.cuboid(1, 2.5, 1);
+    this.colliderType = this.physics.rapier.ColliderDesc.cuboid(.3, 1, .3);
     this.collider = this.physics.world.createCollider(
       this.colliderType,
       this.rigidBody
@@ -46,7 +46,7 @@ export default class CharacterController {
     this.characterController =
     this.physics.world.createCharacterController(0.01);
     this.characterController.setApplyImpulsesToDynamicBodies(true);
-    this.characterController.enableAutostep(3, 0.1, false);
+    this.characterController.enableAutostep(5, 0.1, false);
     this.characterController.enableSnapToGround(1);
   }
 
@@ -74,7 +74,7 @@ export default class CharacterController {
     this.character.quaternion.slerp(characterRotation, 0.1);
   }
 
-    movement.normalize().multiplyScalar(0.3);
+    movement.normalize().multiplyScalar(0.1);
     movement.y -= 1;
 
     this.characterController.computeColliderMovement(this.collider, movement);
@@ -84,6 +84,6 @@ export default class CharacterController {
       .add(this.characterController.computedMovement());
 
     this.rigidBody.setNextKinematicTranslation(newPosition);
-    this.character.position.lerp(this.rigidBody.translation(), 0.2);
+    this.character.position.lerp(this.rigidBody.translation(), 0.1);
   }
 }
