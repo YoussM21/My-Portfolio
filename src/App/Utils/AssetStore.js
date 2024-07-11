@@ -5,6 +5,12 @@ const assetsToLoad = [
         id: 'avatar',
         path: '/models/avatar.glb',
         type: 'model'
+    },
+
+    {
+        id: 'environment',
+        path: '/models/environment.glb',
+        type: 'model'
     }
 ]
 
