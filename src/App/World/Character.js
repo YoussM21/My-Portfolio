@@ -26,6 +26,7 @@ export default class Character {
     this.scene.add(this.instance);
 
     const avatar = this.avatar.scene;
+    avatar.scale.setScalar(1.1);
     avatar.position.y = -1;
     avatar.rotation.y = Math.PI;
     this.instance.add(avatar);

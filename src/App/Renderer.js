@@ -22,6 +22,11 @@ export default class Renderer {
           this.instance.setSize(this.sizes.width, this.sizes.height);
           this.instance.setPixelRatio(Math.min(window.devicePixelRatio, 2));
           this.instance.outputEncoding = THREE.sRGBEncoding;
+          this.instance.shadowMap.enabled = true;
+          this.instance.shadowMap.type = THREE.PCFSoftShadowMap;
+
+          this.instance.toneMapping = THREE.ACESFilmicToneMapping;
+            this.instance.toneMappingExposure = 0.8;
         }
 
     setResizeListener() {

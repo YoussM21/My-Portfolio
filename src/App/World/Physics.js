@@ -20,11 +20,11 @@ export default class Physics {
             this.rapier = RAPIER;
             
             // Rapier
-            const groundRigidBodyType = RAPIER.RigidBodyDesc.fixed();
-            this.groundRigidBody = this.world.createRigidBody(groundRigidBodyType);
+            // const groundRigidBodyType = RAPIER.RigidBodyDesc.fixed();
+            // this.groundRigidBody = this.world.createRigidBody(groundRigidBodyType);
 
-            const groundColliderType = RAPIER.ColliderDesc.cuboid(10, 0.5, 10);
-            this.world.createCollider(groundColliderType, this.groundRigidBody);
+            // const groundColliderType = RAPIER.ColliderDesc.cuboid(10, 0.5, 10);
+            // this.world.createCollider(groundColliderType, this.groundRigidBody);
             
             this.rapierLoaded = true;
             appStateStore.setState({ physicsReady: true });
