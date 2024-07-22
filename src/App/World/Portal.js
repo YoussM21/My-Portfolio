@@ -8,6 +8,22 @@ export default class Portal {
         this.portalMesh = portalMesh;
         this.modalInfo = modalInfo;
         this.modelManager = new ModelManager();
+
+        this.portalNearMaterial = new THREE.MeshBasicMaterial({ 
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.8
+        });
+
+        this.portalFarMaterial = new THREE.MeshBasicMaterial({ 
+            color: 0x00ffff,
+            transparent: true,
+            opacity: 0.8
+        });
+
+        this.portalMesh.material = this.portalFarMaterial;
+
+        this.previusNear = false;
     }
 
     loop(){
@@ -19,7 +35,17 @@ export default class Portal {
             const distance = this.character.position.distanceTo(portalPosition);
             const isNear = distance < 1.5;
             if (isNear) {
+                if (!this.previusNear) {
                 this.modelManager.openModal(this.modalInfo.title, this.modalInfo.description);
+                this.portalMesh.material = this.portalNearMaterial;
+            }
+            this.previusNear = true;
+            } else {
+                if (this.previusNear) {
+                this.modelManager.closeModal();
+                this.portalMesh.material = this.portalFarMaterial;
+            }
+            this.previusNear = false
             }
         }
     }
