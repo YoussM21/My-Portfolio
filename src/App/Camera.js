@@ -2,37 +2,51 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { sizeStore } from "./Utils/Store.js";
 
-import App from './App.js';
+import App from "./App.js";
 
 export default class Camera {
   constructor() {
-   this.app = new App();
-   this.canvas = this.app.canvas;
+    this.app = new App();
+    this.canvas = this.app.canvas;
 
-   this.sizeStore = sizeStore;
-   this.sizes = this.sizeStore.getState();
-   
-   this.setInstance()
-   this.setControls()
-   this.setResizeListener()
+    this.sizeStore = sizeStore;
+    this.sizes = this.sizeStore.getState();
+
+    this.setInstance();
+    this.setControls();
+    this.setResizeListener();
   }
 
   // initialize the camera
   setInstance() {
-     this.instance = new THREE.PerspectiveCamera(
-        35,
-        this.sizes.width /this.sizes.height,
-        1,
-        600
-      );
-      this.instance.position.z = 100;
-      this.instance.position.y = 20;
+    this.instance = new THREE.PerspectiveCamera(
+      35,
+      this.sizes.width / this.sizes.height,
+      1,
+      600
+    );
+    // this.instance.position.z = 100;
+    // this.instance.position.y = 20;
+
+    this.instance.position.set(0, 25, 35);
+
   }
 
   // add orbit controls
   setControls() {
     this.controls = new OrbitControls(this.instance, this.canvas);
     this.controls.enableDamping = true;
+
+    this.controls.dampingFactor = 0.05;
+    this.controls.screenSpacePanning = true;
+
+    // Disable rotation
+    this.controls.enableRotate = false;
+    this.controls.enablePan = true;
+
+    // Set zoom limits if needed
+    this.controls.minDistance = 10;
+    this.controls.maxDistance = 100;
   }
 
   // resize listener
@@ -42,16 +56,14 @@ export default class Camera {
       this.instance.updateProjectionMatrix();
     });
   }
-    
 
   // render loop
   loop() {
     this.controls.update();
     this.characterController = this.app.world.characterController?.rigidBody;
     if (this.characterController) {
-
       const characterPosition = this.characterController.translation();
-      const characterRotation = this.characterController.rotation()
+      const characterRotation = this.characterController.rotation();
 
       const cameraOffset = new THREE.Vector3(0, 28, 35);
       cameraOffset.applyQuaternion(characterRotation);
@@ -65,9 +77,6 @@ export default class Camera {
 
       this.instance.position.lerp(cameraOffset, 0.1);
       this.controls.target.lerp(targetOffset, 0.1);
-
     }
-    
-    }
-
+  }
 }
