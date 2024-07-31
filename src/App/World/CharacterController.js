@@ -10,6 +10,9 @@ export default class CharacterController {
     this.physics = this.app.world.physics;
     this.character = this.app.world.character.instance
 
+    this.clock = new THREE.Clock();
+    this.previousElapsedTime = 0;
+
     inputStore.subscribe((state) => {
       this.forward = state.forward;
       this.backward = state.backward;
@@ -51,6 +54,8 @@ export default class CharacterController {
   }
 
   loop() {
+    const deltaTime = this.clock.getDelta();
+
     const movement = new THREE.Vector3();
     if (this.forward) {
       movement.z -= 1;
@@ -74,7 +79,7 @@ export default class CharacterController {
     this.character.quaternion.slerp(characterRotation, 0.1);
   }
 
-    movement.normalize().multiplyScalar(0.1);
+    movement.normalize().multiplyScalar(deltaTime * 8);
     movement.y -= 1;
 
     this.characterController.computeColliderMovement(this.collider, movement);
