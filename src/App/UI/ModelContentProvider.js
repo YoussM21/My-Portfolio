@@ -33,7 +33,7 @@ export default class ModelContentProvider {
                                 <a href="mailto:mroueh.youssef10@gmail.com" target="_blank">
                                     <img src="../../assets/icons8-mail-24.png" alt="Mail" class="social-icon">
                                 </a>
-                                <a href="youssef-mroue-resume.tiiny.site" target="_blank">
+                                <a href="https://youssef-mroue-resume.tiiny.site" target="_blank">
                                     <img src="../../assets/icons8-resume-24.png" alt="Resume" class="social-icon">
                                 </a>
                             </div>
