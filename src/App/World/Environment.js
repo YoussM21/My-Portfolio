@@ -9,7 +9,6 @@ export default class Environment {
         this.app = new App();
         this.scene = this.app.scene;
         this.physics = this.app.world.physics;
-        this.pane = this.app.gui.pane;
 
         this.assetStore = assetStore.getState();
         this.environment = this.assetStore.loadedAssets.environment;
@@ -109,7 +108,7 @@ export default class Environment {
 
        this.portal1 = new Portal(portalMesh1, modelContentProvider.getModalInfo('aboutMe'));
        this.portal2 = new Portal(portalMesh2, modelContentProvider.getModalInfo('projects'));
-       this.portal3 = new Portal(portalMesh3, modelContentProvider.getModalInfo('contactMe'));
+       this.portal3 = new Portal(portalMesh3, modelContentProvider.getModalInfo('myexperience'));
     }
 
     loop(){

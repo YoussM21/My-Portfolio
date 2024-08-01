@@ -7,7 +7,7 @@ import Resize from './Utils/Resize.js';
 import AssetLoader from './Utils/AssetLoader.js';
 import Preloader from './UI/Preloader.js';
 import InputController from './UI/InputController.js';
-import GUI from './Utils/GUI.js'
+// import GUI from './Utils/GUI.js'
 
 let instance = null;
 
@@ -23,7 +23,7 @@ export default class App{
         this.scene = new THREE.Scene();
 
         // GUI
-        this.gui = new GUI();
+        // this.gui = new GUI();
 
         // AssetLoader
         this.assetLoader = new AssetLoader();
