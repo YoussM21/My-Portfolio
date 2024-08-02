@@ -5,7 +5,7 @@ import topLevelAwait from 'vite-plugin-top-level-await'
 export default defineConfig({
   root: 'src/',
   publicDir: '../static/',
-  base: './',
+  base: '/My-Portfolio/',
   plugins: [
     wasm(),
     topLevelAwait()
