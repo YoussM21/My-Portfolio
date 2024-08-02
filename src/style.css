@@ -94,39 +94,50 @@ body {
 
 .modal-wrapper {
     position: relative;
-    width: 70%;
+    width: 90%;
     top: 50%;
     left: 50%;
+    max-width: 1200px;
     transform: translate(-50%, -50%);
     text-align: center;
 }
 
 .modal-content {
     background-color: rgb(255, 255, 255);
-    backdrop-filter: blur(10px);
-    padding: 40px;
+    padding: 30px;
     border-radius: 20px;
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
     font-family: 'Poppins', sans-serif;
     margin: 0 auto;
     color: black;
-    overflow-y: auto ;
-    position: relative;
+    max-height: 80vh;
     overflow: visible;
+    /* position: relative; */
+    overflow: visible;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  padding-top: 0;
 }
 
 li {
     text-align: left;
 }
 
+@media screen and (max-width: 768px) {
+  .modal-content {
+    overflow: auto;
+  }
+}
 .experience-container {
   display: flex;
-  gap: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  gap: 1rem;
+  max-width: 100%;
+  /* margin: 0 auto; */
   padding: 1rem;
-  overflow: visible;
-  overflow-y: scroll;
+  /* overflow: visible;
+  overflow-y: scroll; */
 }
 
 .left-column {
@@ -155,9 +166,7 @@ li {
 
 @media (max-width: 768px) {
   .experience-container {
-    flex-direction: column;
-    overflow: visible;
-    overflow-y: scroll;
+    flex-direction: row;
   }
   
   .left-column, .right-column {
@@ -168,30 +177,6 @@ li {
     padding-right: 0;
     margin-bottom: 2rem;
   }
-}
-.close {
-    display: inline-block;
-    width: 120px;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    border-radius: 20px;
-    background-color: #3ec4c4;
-    backdrop-filter: blur(10px);
-    color: #fff;
-    /* Set the color of the button text to white */
-    font-size: 20px;
-    font-weight: bold;
-    transition: 0.3s all;
-    cursor: pointer;
-    text-transform: uppercase;
-    font-family: 'Poppins', sans-serif;
-    margin-top: 20px;
-}
-
-.close:hover,
-.close:focus {
-    background-color: #2d6f6f;
 }
 
 .modal h1,
@@ -257,7 +242,7 @@ li {
     padding-top: none;
 }
 
-@media (max-width: 968px) {
+@media (max-width: 768px) {
   
   .about-me-container {
     flex: auto;
@@ -266,11 +251,24 @@ li {
   }
   
   .avatar-pic {
-    transform: translateX(-50%);
-  }
+    position: absolute;
+    top: -27vw;
+    left: -15vw;
+    width: 40vw;
+    height: 40vw;
+    max-width: 200px;
+    max-height: 200px;
+    /* transform: translateX(-40%); */
+}
 
-  .computer-pic{
-    transform: translateX(50%);
+  .computer-pic {
+    position: absolute;
+    top: -8vw;
+    right: -5vw;
+    width: 20vw;
+    height: auto;
+    max-width: 300px;
+    transform: translateX(10%); 
   }
 }
 
@@ -279,7 +277,7 @@ li {
 }
 .computer-pic {
     position: absolute;
-    top: -13vw;
+    top: -15vw;
     right: -5vw;
     width: 30vw;
     height: 19vw;
@@ -287,7 +285,6 @@ li {
     max-height: 420px;
     min-width: 60px;
     min-height: 60px;
-    border-radius: 50%;
   }
 
 .projects-content{
@@ -309,3 +306,30 @@ li {
   .my-projects{
     padding-top: none;
 }
+
+
+.close {
+    display: inline-block;
+    width: 120px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 20px;
+    background-color: #3ec4c4;
+    backdrop-filter: blur(10px);
+    color: #fff;
+    /* Set the color of the button text to white */
+    font-size: 20px;
+    font-weight: bold;
+    transition: 0.3s all;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 20px;
+}
+
+.close:hover,
+.close:focus {
+    background-color: #2d6f6f;
+}
+
