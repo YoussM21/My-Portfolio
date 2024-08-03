@@ -1,10 +1,11 @@
-import { defineConfig } from 'vite'
-import wasm from 'vite-plugin-wasm'
-import topLevelAwait from 'vite-plugin-top-level-await'
+import { defineConfig } from 'vite';
+import wasm from 'vite-plugin-wasm';
+import topLevelAwait from 'vite-plugin-top-level-await';
+import { resolve } from 'path'; // Import the resolve function
 
 export default defineConfig({
   root: 'src/',
-  publicDir: '../static/',
+  publicDir: '../static/',  // This specifies your static directory relative to the config file
   base: '/My-Portfolio/',
   plugins: [
     wasm(),
