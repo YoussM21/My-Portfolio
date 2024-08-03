@@ -1,26 +1,40 @@
 import { defineConfig } from 'vite';
 import wasm from 'vite-plugin-wasm';
 import topLevelAwait from 'vite-plugin-top-level-await';
-import { resolve } from 'path'; // Import the resolve function
+import { resolve } from 'path';
+import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 export default defineConfig({
   root: 'src/',
-  publicDir: '../static/',  // This specifies your static directory relative to the config file
+  publicDir: '../static/',
   plugins: [
     wasm(),
-    topLevelAwait()
+    topLevelAwait(),
+    viteStaticCopy({
+      targets: [
+        {
+          src: '../static/assets/**/*',
+          dest: 'assets/'
+        },
+        {
+          src: '../static/draco/**/*',
+          dest: 'draco/'
+        },
+        {
+          src: '../static/models/**/*',
+          dest: 'models/'
+        }
+      ]
+    })
   ],
   build: {
-    outDir: '../dist',  // Ensures output is placed in the dist folder at the project root
+    outDir: '../dist/',
     emptyOutDir: true,
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'src/index.html'),
       },
-      // Ensure static assets are treated properly
-      // Include all assets
-      assetsInclude: ['**/*']
     },
-    chunkSizeWarningLimit: 1000,
+    assetsInclude: ['**/*.glb', '**/*.gltf', '**/*.bin', '**/*.jpg', '**/*.png', '**/*.svg', '**/*.ico'] // Add any other asset types you're using
   },
 });
