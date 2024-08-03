@@ -18,7 +18,8 @@ export default defineConfig({
         main: resolve(__dirname, 'src/index.html'),
       },
       // Ensure static assets are treated properly
-      assetsInclude: ['**/*.glb']  // Include GLB files explicitly if necessary
+      // Include all assets
+      assetsInclude: ['**/*']
     },
     chunkSizeWarningLimit: 1000,
   },
