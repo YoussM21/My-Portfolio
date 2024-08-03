@@ -11,11 +11,15 @@ export default defineConfig({
     topLevelAwait()
   ],
   build: {
-    outDir: '../dist', // Output directory relative to the root
-    emptyOutDir: true, // Clears the output directory before building
+    outDir: '../dist',  // Ensures output is placed in the dist folder at the project root
+    emptyOutDir: true,
     rollupOptions: {
-      // Custom rollup options can be specified here
+      input: {
+        main: resolve(__dirname, 'src/index.html'),
+      },
+      // Ensure static assets are treated properly
+      assetsInclude: ['**/*.glb']  // Include GLB files explicitly if necessary
     },
-    chunkSizeWarningLimit: 1000, // Increase the chunk size warning limit if needed
+    chunkSizeWarningLimit: 1000,
   },
-})
+});
