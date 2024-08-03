@@ -6,7 +6,6 @@ import { resolve } from 'path'; // Import the resolve function
 export default defineConfig({
   root: 'src/',
   publicDir: '../static/',  // This specifies your static directory relative to the config file
-  base: '/My-Portfolio/',
   plugins: [
     wasm(),
     topLevelAwait()
