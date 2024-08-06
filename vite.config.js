@@ -27,14 +27,30 @@ export default defineConfig({
       ]
     })
   ],
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'src'),
+    },
+  },
   build: {
-    outDir: '../dist/',
+    outDir: '../dist',
     emptyOutDir: true,
+    sourcemap: true,
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'src/index.html'),
       },
+      output: {
+        manualChunks: {
+          'rapier': ['@dimforge/rapier3d-compat'],
+          'three': ['three'],
+        }
+      }
     },
-    assetsInclude: ['**/*.glb', '**/*.gltf', '**/*.bin', '**/*.jpg', '**/*.png', '**/*.svg', '**/*.ico'] // Add any other asset types you're using
+    assetsInclude: ['**/*.glb', '**/*.gltf', '**/*.bin', '**/*.jpg', '**/*.png', '**/*.svg', '**/*.ico'],
+    target: ['esnext'],
+  },
+  optimizeDeps: {
+    exclude: ['@dimforge/rapier3d-compat'],
   },
 });
