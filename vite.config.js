@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite';
-import wasm from 'vite-plugin-wasm';
 import topLevelAwait from 'vite-plugin-top-level-await';
+import wasm from 'vite-plugin-wasm';
 import { resolve } from 'path';
-import { viteStaticCopy } from 'vite-plugin-static-copy'
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 export default defineConfig({
   root: 'src/',
@@ -27,6 +27,7 @@ export default defineConfig({
       ]
     })
   ],
+
   build: {
     outDir: '../dist/',
     emptyOutDir: true,
@@ -35,6 +36,12 @@ export default defineConfig({
         main: resolve(__dirname, 'src/index.html'),
       },
     },
-    assetsInclude: ['**/*.glb', '**/*.gltf', '**/*.bin', '**/*.jpg', '**/*.png', '**/*.svg', '**/*.ico'] // Add any other asset types you're using
+    assetsInclude: ['**/*.glb', '**/*.gltf', '**/*.bin', '**/*.jpg', '**/*.png', '**/*.svg', '**/*.ico', '**/*.wasm']
   },
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'src'),
+    },
+  },
+ 
 });

@@ -9,10 +9,8 @@ export default class Environment {
         this.app = new App();
         this.scene = this.app.scene;
         this.physics = this.app.world.physics;
-
         this.assetStore = assetStore.getState();
         this.environment = this.assetStore.loadedAssets.environment;
-
         this.loadEnvironment();
         this.addLights();
         this.addPortals();
@@ -21,8 +19,6 @@ export default class Environment {
     loadEnvironment() {
         const environmentScene = this.environment.scene;
         this.scene.add(environmentScene);
-
-
         environmentScene.position.set(-4.8, 0, -7.4);
         environmentScene.rotation.set(0, -.60, 0);
         environmentScene.scale.setScalar(1.3)
@@ -36,7 +32,6 @@ export default class Environment {
             'stairs',
             'gates'
         ]
-
         const shadowCasters = [
             'trees',
             'rocks',
@@ -45,7 +40,6 @@ export default class Environment {
             'stairs',
             'gates'
         ]
-
         const shadowReceivers = [
             'floor',
             'terrain'
@@ -54,10 +48,7 @@ export default class Environment {
         for (const child of environmentScene.children) {
             const isphysicalObject = physicalObjects.some((keyword) => child.name.includes(keyword));
             if (isphysicalObject) {
-                child.traverse((obj) => {
-                    if (obj.isMesh) {
-                        this.physics.add(obj, 'fixed', 'cuboid');
-                }})
+                this.addPhysicsToObject(child);
             }
 
             const isShadowCaster = shadowCasters.some((keyword) => child.name.includes(keyword));
@@ -65,7 +56,8 @@ export default class Environment {
                 child.traverse((obj) => {
                     if (obj.isMesh) {
                         obj.castShadow = true;
-                }})
+                    }
+                })
             }
 
             const isShadowReceiver = shadowReceivers.some((keyword) => child.name.includes(keyword));
@@ -73,10 +65,23 @@ export default class Environment {
                 child.traverse((obj) => {
                     if (obj.isMesh) {
                         obj.receiveShadow = true;
-                }})
+                    }
+                })
             }
         }
     }
+
+    addPhysicsToObject(object) {
+        object.traverse((obj) => {
+            if (obj.isMesh) {
+                // Use the async add method, but don't await it
+                this.physics.add(obj, 'fixed', 'cuboid').catch(error => {
+                    console.error("Failed to add physics to object:", error);
+                });
+            }
+        })
+    }
+
 
     addLights() {
         //lighting
