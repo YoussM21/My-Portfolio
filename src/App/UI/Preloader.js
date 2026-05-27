@@ -40,12 +40,7 @@ export default class Preloader {
             window.setTimeout(() => overlay.remove(), 600);
         };
 
-        const timer = window.setTimeout(dismiss, 4000);
-
-        overlay.addEventListener('click', () => {
-            clearTimeout(timer);
-            dismiss();
-        }, { once: true });
+        overlay.addEventListener('click', () => dismiss(), { once: true });
     }
 
     ready() {
@@ -60,8 +55,9 @@ export default class Preloader {
             window.setTimeout(() => {
                 this.overlay.remove();
                 this.startButton.remove();
-                this.showControls();
             }, 2000);
+
+            window.setTimeout(() => this.showControls(), 800);
         }, { once: true });
     }
 }
