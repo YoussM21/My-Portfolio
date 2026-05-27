@@ -1,12 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Amatic+SC');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Space+Mono:wght@400;700&display=swap');
 
 body {
     margin: 0;
     overflow: hidden;
-    font-family: 'Amatic SC', cursive;
+    font-family: 'Poppins', sans-serif;
 }
 
+/* ── Overlay ── */
 .overlay {
     opacity: 1;
     background-color: rgb(0, 0, 0);
@@ -23,35 +23,74 @@ body {
     opacity: 0;
 }
 
-.loading {
-    position: absolute;
+/* ── Loading screen ── */
+.loading-screen {
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: white;
-    background-color: transparent;
-    font-family: 'Amatic SC';
-    font-size: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
     opacity: 1;
-    transition: opacity 1s;
+    transition: opacity 0.8s;
 }
 
-.loading.fade {
+.loading-screen.fade {
     opacity: 0;
 }
 
+.loading-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: #3ec4c4;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.loading-bar-track {
+    width: 220px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.loading-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: #3ec4c4;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+    box-shadow: 0 0 8px rgba(62, 196, 196, 0.6);
+}
+
+.loading-percent {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin: 0;
+}
+
+/* ── Start / Enter button ── */
 .start {
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    border: none;
-    color: white;
+    border: 1px solid rgba(62, 196, 196, 0.5);
+    color: #3ec4c4;
     background-color: transparent;
-    font-size: 4rem;
-    font-family: 'Amatic SC';
+    font-size: 0.85rem;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.25em;
+    padding: 14px 40px;
+    border-radius: 4px;
+    cursor: pointer;
     opacity: 0;
-    transition: opacity 0.5s;
+    transition: opacity 0.5s, background-color 0.3s, color 0.3s;
     display: none;
 }
 
@@ -65,7 +104,8 @@ body {
 
 @media (hover: hover) and (pointer: fine) {
     .start:hover {
-        color: #9effe7;
+        background-color: #3ec4c4;
+        color: #080c16;
     }
 }
 

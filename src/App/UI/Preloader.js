@@ -5,34 +5,33 @@ export default class Preloader {
     constructor() {
         this.assetStore = assetStore;
 
-        //access to DOM elements
         this.overlay = document.querySelector('.overlay');
-        this.loading = document.querySelector('.loading');
+        this.loadingScreen = document.querySelector('.loading-screen');
+        this.loadingBarFill = document.getElementById('loadingBarFill');
         this.startButton = document.querySelector('.start');
-        
-        this.assetStore.subscribe((state) => {
-            
 
+        this.assetStore.subscribe((state) => {
             this.numOfLoadedAssets = Object.keys(state.loadedAssets).length;
             this.numOfAssetsToLoad = state.assetsToLoad.length;
             this.progress = this.numOfLoadedAssets / this.numOfAssetsToLoad;
-            this.progress = Math.trunc(this.progress * 100)
+            this.progress = Math.trunc(this.progress * 100);
 
-            document.getElementById('progressPercentage').innerHTML = this.progress
+            document.getElementById('progressPercentage').innerHTML = this.progress;
+            if (this.loadingBarFill) {
+                this.loadingBarFill.style.width = this.progress + '%';
+            }
 
-            if ( this.progress === 100){
+            if (this.progress === 100) {
                 appStateStore.setState({ assetsReady: true });
-                this.loading.classList.add('fade');
-                window.setTimeout(() => 
-                    this.ready(), 1200
-                );
+                this.loadingScreen.classList.add('fade');
+                window.setTimeout(() => this.ready(), 1200);
             }
         });
     }
 
     ready() {
-        this.loading.remove();
-        this.startButton.style.display = 'inline'
+        this.loadingScreen.remove();
+        this.startButton.style.display = 'inline';
         this.startButton.classList.add('fadeIn');
 
         this.startButton.addEventListener('click', () => {
@@ -43,6 +42,6 @@ export default class Preloader {
                 this.overlay.remove();
                 this.startButton.remove();
             }, 2000);
-        }, {once: true});
+        }, { once: true });
     }
 }
