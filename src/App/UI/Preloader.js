@@ -29,6 +29,25 @@ export default class Preloader {
         });
     }
 
+    showControls() {
+        const overlay = document.getElementById('controlsOverlay');
+        if (!overlay) return;
+
+        overlay.classList.add('visible');
+
+        const dismiss = () => {
+            overlay.classList.add('hiding');
+            window.setTimeout(() => overlay.remove(), 600);
+        };
+
+        const timer = window.setTimeout(dismiss, 4000);
+
+        overlay.addEventListener('click', () => {
+            clearTimeout(timer);
+            dismiss();
+        }, { once: true });
+    }
+
     ready() {
         this.loadingScreen.remove();
         this.startButton.style.display = 'inline';
@@ -41,6 +60,7 @@ export default class Preloader {
             window.setTimeout(() => {
                 this.overlay.remove();
                 this.startButton.remove();
+                this.showControls();
             }, 2000);
         }, { once: true });
     }

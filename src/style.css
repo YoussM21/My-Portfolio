@@ -109,6 +109,114 @@ body {
     }
 }
 
+/* ── Controls overlay ── */
+.controls-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 8000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+}
+
+.controls-overlay.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.controls-overlay.hiding {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.controls-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    color: #e8edf5;
+}
+
+.controls-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #3ec4c4;
+    margin: 0;
+}
+
+.controls-keyboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.key-row {
+    display: flex;
+    gap: 6px;
+}
+
+.key-cap {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(62, 196, 196, 0.4);
+    border-bottom: 3px solid rgba(62, 196, 196, 0.4);
+    border-radius: 6px;
+    background: rgba(62, 196, 196, 0.08);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #3ec4c4;
+    user-select: none;
+}
+
+.controls-label {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0;
+}
+
+.controls-portal-hint {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 4px;
+}
+
+.portal-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #3ec4c4;
+    box-shadow: 0 0 10px #3ec4c4, 0 0 20px rgba(62, 196, 196, 0.4);
+    animation: pulse 1.5s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.4); opacity: 0.6; }
+}
+
+.controls-dismiss {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.3);
+    margin: 0;
+    margin-top: 8px;
+}
+
 .modal {
     display: none;
     position: fixed;
