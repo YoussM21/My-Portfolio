@@ -4,12 +4,12 @@
 <head>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
-	
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
-	<title>Youss's Portfolio</title>
+	<title>Youssef Mroue — Portfolio</title>
 	<link rel="stylesheet" href="./style.css">
 </head>
 
@@ -17,16 +17,42 @@
 	<canvas class="threejs"></canvas>
 	<script type="module" src="./index.js"></script>
 	<div class="overlay"></div>
-	<h1 class="loading">Loading Experience... <span id="progressPercentage"></span>%</h1>
-	<button class="start">START</button>
+	<div class="loading-screen">
+		<p class="loading-label">Initializing world</p>
+		<div class="loading-bar-track">
+			<div class="loading-bar-fill" id="loadingBarFill"></div>
+		</div>
+		<p class="loading-percent"><span id="progressPercentage">0</span>%</p>
+	</div>
+	<button class="start">ENTER</button>
+
+	<div class="controls-overlay" id="controlsOverlay">
+		<div class="controls-content">
+			<p class="controls-title">How to explore</p>
+			<div class="controls-keyboard">
+				<div class="key-row"><div class="key-cap">W</div></div>
+				<div class="key-row">
+					<div class="key-cap">A</div>
+					<div class="key-cap">S</div>
+					<div class="key-cap">D</div>
+				</div>
+			</div>
+			<p class="controls-label">Move your character</p>
+			<div class="controls-portal-hint">
+				<span class="portal-dot"></span>
+				<span>Walk into glowing portals to explore</span>
+			</div>
+			<p class="controls-dismiss">Click anywhere to continue</p>
+		</div>
+	</div>
 
 	<div id="myModal" class="modal">
 		<div class="modal-wrapper">
 			<div class="modal-content">
-				<h1 id="modalTitle">Modal Title</h1>
-				<p id="modalDescription">Modal Description</p>
+				<div id="modalTitle"></div>
+				<div id="modalDescription"></div>
 			</div>
-			<span class="close">Close</span>
+			<button class="close">✕ Close</button>
 		</div>
 	</div>
 
