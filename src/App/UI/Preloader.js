@@ -41,6 +41,7 @@ export default class Preloader {
         };
 
         overlay.addEventListener('click', () => dismiss(), { once: true });
+        window.addEventListener('keydown', () => dismiss(), { once: true });
     }
 
     ready() {
