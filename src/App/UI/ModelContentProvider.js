@@ -40,47 +40,70 @@ export default class ModelContentProvider {
         `,
       },
       myexperience: {
-        title: '<h3 style="padding: 0 ; margin: 0;">My Experience</h3>',
+        title: '',
         description: `
-                    <div class="experience-container">
-                        <div class="left-column">
-                            <img src="../../assets/low-poly-office.svg" alt="office" class="office-pic">
-                            <p class="introduction">
-                            As a 4th year Software Engineering student at the University of Ottawa, I've gained valuable experience through multiple internships in both the private and public sectors. Outside of work, I dedicate a lot of my free time to learning new coding languages and exploring data science. I excel in team environments but also enjoy working on solo projects. Learn more about my projects by visiting the projects section of this site.<strong> Click on the icon to view my full resume.</strong>
-                            </p>
-                            <div class="social-icons">
-                                <a href="https://www.linkedin.com/in/youssefmroue/" target="_blank">
-                                    <img src="../../assets/icons8-linkedin-24.png" alt="LinkedIn" class="social-icon">
-                                </a>
-                                <a href="https://github.com/YoussM21" target="_blank">
-                                    <img src="../../assets/icons8-github-24.png" alt="GitHub" class="social-icon">
-                                </a>
-                                <a href="mailto:mroueh.youssef10@gmail.com" target="_blank">
-                                    <img src="../../assets/icons8-mail-24.png" alt="Mail" class="social-icon">
-                                </a>
-                                <a href="https://youssef-mroue-resume.tiiny.site" target="_blank">
-                                    <img src="../../assets/icons8-resume-24.png" alt="Resume" class="social-icon">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="right-column">
-                            <div class="experience">
-                            <h3>Transport Canada</h3>
-                            <p class="position">Application Developer/Agile Scrum Master</p>
-                            <p>Developed custom applications using Microsoft Power Apps and led Agile processes as Scrum Master</p>
+          <h3 class="section-title">Experience</h3>
+          <div class="exp-list">
+            <div class="exp-card">
+              <div class="exp-header">
+                <span class="exp-company">Transport Canada</span>
+                <span class="exp-date">2023</span>
+              </div>
+              <p class="exp-role">Application Developer · Agile Scrum Master</p>
+              <p class="exp-desc">Built internal tools with Microsoft Power Apps and kept two teams moving as Scrum Master. Learned that the most critical software is often the least glamorous — and that good process matters as much as good code.</p>
+              <div class="tech-tags">
+                <span class="tech-tag">Power Apps</span>
+                <span class="tech-tag">Power Automate</span>
+                <span class="tech-tag">Agile</span>
+                <span class="tech-tag">Scrum</span>
+              </div>
+            </div>
 
-                            <h3>Statistics Canada</h3>
-                            <p class="position">Data Scientist/Junior Analyst</p>
-                            <p>Analyzed large datasets using Python and R, created visualizations, and collaborated on predictive modeling</p>
+            <div class="exp-card">
+              <div class="exp-header">
+                <span class="exp-company">Statistics Canada</span>
+                <span class="exp-date">2022</span>
+              </div>
+              <p class="exp-role">Data Scientist · Junior Analyst</p>
+              <p class="exp-desc">Wrangled census-scale datasets in Python and R, built visualizations that made the numbers tell a story, and contributed to predictive models. Numbers have a lot to say — you just have to know how to ask.</p>
+              <div class="tech-tags">
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">R</span>
+                <span class="tech-tag">Data Viz</span>
+                <span class="tech-tag">Machine Learning</span>
+              </div>
+            </div>
 
-                            <h3>Sliike Corporation</h3>
-                            <p class="position">UI/UX Designer & Junior Website Developer</p>
-                            <p>Designed and developed interfaces for websites and mobile apps, worked with new frameworks in an Agile environment</p>
-                            </div>
-                        </div>
-                    </div>
+            <div class="exp-card">
+              <div class="exp-header">
+                <span class="exp-company">Sliike Corporation</span>
+                <span class="exp-date">2021</span>
+              </div>
+              <p class="exp-role">UI/UX Designer · Junior Web Developer</p>
+              <p class="exp-desc">Designed and shipped interfaces for web and mobile in a fast-moving Agile team. First time realizing how much the way something looks shapes the way it gets used.</p>
+              <div class="tech-tags">
+                <span class="tech-tag">Figma</span>
+                <span class="tech-tag">React</span>
+                <span class="tech-tag">UI/UX</span>
+                <span class="tech-tag">Agile</span>
+              </div>
+            </div>
+          </div>
 
-                `,
+          <div class="modal-footer">
+            <div class="modal-footer-links">
+              <a href="https://www.linkedin.com/in/youssefmroue/" target="_blank" class="footer-link">
+                <img src="../../assets/icons8-linkedin-24.png" alt="LinkedIn"> LinkedIn
+              </a>
+              <a href="https://github.com/YoussM21" target="_blank" class="footer-link">
+                <img src="../../assets/icons8-github-24.png" alt="GitHub"> GitHub
+              </a>
+            </div>
+            <a href="https://youssef-mroue-resume.tiiny.site" target="_blank" class="footer-link">
+              <img src="../../assets/icons8-resume-24.png" alt="Resume"> View Resume ↗
+            </a>
+          </div>
+        `,
       },
       projects: {
         title: '<h3 style=" padding: 0; margin: 0;"> My Projects</h3>',
