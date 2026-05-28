@@ -417,77 +417,144 @@ body::after {
     50%       { opacity: 0.4; }
 }
 
-/* ── Modal shell ── */
+/* ── Modal — immersive side panel ── */
 .modal {
+    --modal-accent: #00ffc8;
     display: none;
     position: fixed;
-    z-index: 9999;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    background: rgba(7, 9, 15, 0.5);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.35s ease;
 }
 
-.modal.fadeIn {
-    opacity: 1;
-    display: block;
-}
+.modal.fadeIn  { opacity: 1; display: block; }
+.modal.fadeOut { opacity: 0; }
 
-.modal.fadeOut {
-    opacity: 0;
-}
-
-.modal-wrapper {
+/* Close btn — pinned inside the panel */
+.modal-close-btn {
     position: absolute;
-    width: 90%;
-    top: 50%;
-    left: 50%;
-    max-width: 900px;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
+    top: 20px;
+    right: 24px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    color: rgba(226, 232, 240, 0.38);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    padding: 7px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: border-color var(--transition-fast), color var(--transition-fast);
+    z-index: 1;
 }
 
-.modal-content {
-    background: var(--color-surface);
+.modal-close-btn:hover {
+    border-color: rgba(255, 255, 255, 0.38);
+    color: var(--color-text);
+}
+
+/* Side panel — slides in from right */
+.modal-inner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(52vw, 640px);
+    min-width: 360px;
+    background: rgba(7, 9, 15, 0.98);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    border: 1px solid var(--color-border-accent);
-    box-shadow: 0 0 60px rgba(0, 255, 200, 0.06), 0 24px 64px rgba(0, 0, 0, 0.6);
-    padding: 36px;
-    border-radius: 16px;
-    font-family: var(--font-body);
-    color: var(--color-text);
-    width: 100%;
-    max-height: 75vh;
-    overflow-y: auto;
+    border-left: 1px solid rgba(255, 255, 255, 0.07);
+    box-shadow: -24px 0 80px rgba(0, 0, 0, 0.55);
+    padding: 56px 44px 44px;
     box-sizing: border-box;
-    text-align: left;
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.48s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.modal-content::-webkit-scrollbar        { width: 4px; }
-.modal-content::-webkit-scrollbar-track  { background: transparent; }
-.modal-content::-webkit-scrollbar-thumb  { background: rgba(0, 255, 200, 0.3); border-radius: 4px; }
+.modal.fadeIn .modal-inner {
+    transform: translateX(0);
+}
 
-.modal-content h3 {
-    margin-top: 0;
-    padding-top: 0;
-    color: var(--color-text);
+/* ── Hero zone ── */
+.modal-hero        { flex-shrink: 0; padding-bottom: 30px; }
+
+.modal-hero-label {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    color: var(--modal-accent);
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    margin: 0 0 18px 0;
+    opacity: 0.85;
+}
+
+.modal-hero-title {
     font-family: var(--font-display);
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    font-weight: 800;
+    background: linear-gradient(150deg, var(--color-text) 35%, var(--modal-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0 0 22px 0;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
 }
 
-.modal-content p {
-    color: var(--color-text-muted);
-    line-height: 1.7;
+/* Attribute tags */
+.modal-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
 }
 
-.modal-content a {
-    color: var(--color-cyan);
+.modal-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.68rem;
+    font-family: var(--font-mono);
+    border: 1px solid;
+    letter-spacing: 0.04em;
 }
+
+.modal-tag.tag-amber { color: var(--color-amber); border-color: rgba(245, 158, 11, 0.35); background: rgba(245, 158, 11, 0.08); }
+.modal-tag.tag-green { color: var(--color-green); border-color: rgba(34, 197, 94,  0.35); background: rgba(34, 197, 94,  0.08); }
+.modal-tag.tag-blue  { color: var(--color-blue);  border-color: rgba(59, 130, 246, 0.35); background: rgba(59, 130, 246, 0.08); }
+.modal-tag.tag-cyan  { color: var(--color-cyan);  border-color: rgba(0, 255, 200,  0.3);  background: rgba(0, 255, 200,  0.08); }
+
+/* Gradient divider */
+.modal-rule {
+    height: 1px;
+    background: linear-gradient(to right, var(--modal-accent), rgba(255, 255, 255, 0.04) 75%);
+    flex-shrink: 0;
+    margin-bottom: 36px;
+}
+
+/* Scrollable body */
+.modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 8px;
+    padding-bottom: 32px;
+}
+
+.modal-body::-webkit-scrollbar       { width: 3px; }
+.modal-body::-webkit-scrollbar-track { background: transparent; }
+.modal-body::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 3px; }
+
+.modal-body p  { color: var(--color-text-muted); line-height: 1.75; }
+.modal-body a  { color: var(--modal-accent); }
+.modal-body h3 { color: var(--color-text); font-family: var(--font-display); margin-top: 0; }
 
 li {
     text-align: left;
@@ -495,27 +562,13 @@ li {
     line-height: 1.8;
 }
 
-/* ── Close button ── */
-.close {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 28px;
-    border: 1px solid rgba(0, 255, 200, 0.4);
-    border-radius: 4px;
-    background: transparent;
-    color: var(--color-cyan);
-    font-size: 0.75rem;
-    font-family: var(--font-mono);
-    letter-spacing: 0.15em;
-    cursor: pointer;
-    transition: background var(--transition-fast), color var(--transition-fast);
-}
-
-.close:hover,
-.close:focus {
-    background: var(--color-cyan);
-    color: var(--color-bg);
+@media (max-width: 768px) {
+    .modal-inner {
+        width: 100%;
+        min-width: unset;
+        padding: 64px 24px 32px;
+    }
+    .modal-close-btn { top: 16px; right: 16px; }
 }
 
 /* ── Social icons ── */
@@ -687,7 +740,7 @@ li {
     font-family: var(--font-display);
     font-size: 1rem;
     font-weight: 600;
-    color: var(--color-cyan);
+    color: var(--modal-accent, var(--color-cyan));
 }
 
 .exp-date {

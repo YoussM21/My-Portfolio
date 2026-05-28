@@ -4,12 +4,12 @@ export default class ModelContentProvider {
   constructor() {
     this.modalContents = {
       aboutMe: {
-        title: '',
+        theme: 'amber',
+        title: `Hi, I'm Youssef.`,
         description: `
           <div class="about-header">
             <div class="about-intro">
-              <h3 class="section-title">Hi, I'm Youssef.</h3>
-              <div class="interest-badges">
+                <div class="interest-badges">
                 <span class="interest-badge">⚽ Soccer</span>
                 <span class="interest-badge">🎮 Game Dev</span>
                 <span class="interest-badge">🔐 Cybersecurity</span>
@@ -40,9 +40,9 @@ export default class ModelContentProvider {
         `,
       },
       myexperience: {
-        title: '',
+        theme: 'blue',
+        title: `My Experience`,
         description: `
-          <h3 class="section-title">Experience</h3>
           <div class="exp-list">
             <div class="exp-card">
               <div class="exp-header">
@@ -106,9 +106,9 @@ export default class ModelContentProvider {
         `,
       },
       projects: {
-        title: '',
+        theme: 'cyan',
+        title: `My Projects`,
         description: `
-          <h3 class="section-title">Projects</h3>
           <div class="projects-grid">
 
             <a href="https://github.com/YoussM21" target="_blank" class="project-card">
