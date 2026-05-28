@@ -18,13 +18,27 @@
 	<script type="module" src="./index.js"></script>
 	<div class="overlay"></div>
 	<div class="loading-screen">
-		<p class="loading-label">Initializing world</p>
-		<div class="loading-bar-track">
-			<div class="loading-bar-fill" id="loadingBarFill"></div>
+		<div class="terminal-window">
+			<div class="terminal-topbar">
+				<div class="terminal-dots">
+					<span class="td-red"></span>
+					<span class="td-yellow"></span>
+					<span class="td-green"></span>
+				</div>
+				<span class="terminal-title-bar">YOUSSEF.EXE</span>
+			</div>
+			<div class="terminal-body" id="terminalBody">
+				<div class="terminal-cursor" id="terminalCursor">▊</div>
+			</div>
+			<div class="terminal-footer">
+				<div class="loading-bar-track">
+					<div class="loading-bar-fill" id="loadingBarFill"></div>
+				</div>
+				<p class="loading-percent"><span id="progressPercentage">0</span>%</p>
+			</div>
 		</div>
-		<p class="loading-percent"><span id="progressPercentage">0</span>%</p>
 	</div>
-	<button class="start">ENTER</button>
+	<button class="start">[ ENTER WORLD ]</button>
 
 	<div class="controls-overlay" id="controlsOverlay">
 		<div class="controls-content">
