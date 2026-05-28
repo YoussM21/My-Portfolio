@@ -4,13 +4,38 @@ export default class ModelContentProvider {
   constructor() {
     this.modalContents = {
       aboutMe: {
-        title: `<h3 class="title">Hi, I'm Youssef!</h3>`,
-        description:`
-          <div class="about-me-container">
-            <img src="../../assets/ReadyPlayerMe-Avatar 1.svg" alt="avatar Pic" class="avatar-pic">
-            <div class="about-me-content">
-              <p>I'm a 4th year Software Engineering student at the University of Ottawa. By day, I'm a developer, and by night, I'm a soccer player. I've had multiple internships in both the private and public sectors, where I've honed my skills and gained valuable experience. As a fast learner and hardworking individual, I'm always seeking new challenges and opportunities to learn. I'm passionate about web development and have recently been diving into game development. I thrive in fast-paced environments and am committed to delivering high-quality, scalable solutions. An enthusiastic team player, I'm ready to contribute to company success. Thanks for visiting!</p>
+        title: '',
+        description: `
+          <div class="about-header">
+            <div class="about-intro">
+              <h3 class="section-title">Hi, I'm Youssef.</h3>
+              <div class="interest-badges">
+                <span class="interest-badge">⚽ Soccer</span>
+                <span class="interest-badge">🎮 Game Dev</span>
+                <span class="interest-badge">🔐 Cybersecurity</span>
+                <span class="interest-badge">📸 Photography</span>
+              </div>
             </div>
+            <img src="../../assets/ReadyPlayerMe-Avatar 1.svg" alt="Youssef avatar" class="about-avatar">
+          </div>
+          <p>The 3D world you just walked through to get here? I built that. It's probably the most honest introduction I can give — I'm a software engineering student at the University of Ottawa who spends a lot of time thinking about what's possible in a browser.</p>
+          <p>Off-screen I'm on a soccer pitch or hunting the perfect shot with a camera. In between, I dig into cybersecurity — how systems break, how they're protected, and what lives in the gaps between the two.</p>
+          <p>I've interned at Transport Canada, Statistics Canada, and Sliike Corporation — across app development, data science, and UI/UX design. Fast learner, team player, currently open to what's next.</p>
+          <div class="modal-footer">
+            <div class="modal-footer-links">
+              <a href="https://www.linkedin.com/in/youssefmroue/" target="_blank" class="footer-link">
+                <img src="../../assets/icons8-linkedin-24.png" alt="LinkedIn"> LinkedIn
+              </a>
+              <a href="https://github.com/YoussM21" target="_blank" class="footer-link">
+                <img src="../../assets/icons8-github-24.png" alt="GitHub"> GitHub
+              </a>
+              <a href="mailto:mroueh.youssef10@gmail.com" class="footer-link">
+                <img src="../../assets/icons8-mail-24.png" alt="Email"> Email
+              </a>
+            </div>
+            <a href="https://youssef-mroue-resume.tiiny.site" target="_blank" class="footer-link">
+              <img src="../../assets/icons8-resume-24.png" alt="Resume"> View Resume ↗
+            </a>
           </div>
         `,
       },
