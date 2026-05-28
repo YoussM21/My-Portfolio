@@ -106,26 +106,98 @@ export default class ModelContentProvider {
         `,
       },
       projects: {
-        title: '<h3 style=" padding: 0; margin: 0;"> My Projects</h3>',
+        title: '',
         description: `
-              <div class="projects-container">
-                <img src="../../assets/low-poly-computer.png" alt="computer Pic" class="computer-pic">
-                <div class="projects-content">
-                    <ul>
-                        <li><strong><a href="https://github.com/YoussM21/Sweat-giggles2.0" target="_blank" style="text-decoration: none; color: #3ec4c4;">Sweat & Giggles:</a></strong> 
-                        A front-end website that allows users to book personal trainers and gym classes. Built using basic HTML, CSS, and JavaScript, this project showcases my ability to create interactive and user-friendly web interfaces.</li>
-                        <li><strong><a href="https://github.com/YoussM21/stellarquest" target="_blank" style="text-decoration: none; color: #3ec4c4;">StellarQuest:</a></strong> 
-                        This front-end website enables users to book tickets to different planets. It also features a "Picture of the Day" section, where users can select a specific date to view a NASA photo along with its description. Developed using React.js, this project highlights my proficiency in modern web development frameworks.</li>
-                        <li><strong><a href="https://github.com/YoussM21/Mealer-App" target="_blank" style="text-decoration: none; color: #3ec4c4;">Mealer:</a></strong> 
-                        An Android app that connects users with small business home chefs for food orders. Created with Android Studio and Java, this project demonstrates my skills in mobile app development and my understanding of user-centric design.</li>
-                        <li><strong><a href="https://github.com/YoussM21/innfinity" target="_blank" style="text-decoration: none; color: #3ec4c4;">Innfinity:</a></strong> 
-                        A full-stack website allowing users to book hotel rooms with specific customizations. It includes a fully functional database managed with PostgreSQL and pgAdmin, a React frontend, and an ExpressJS backend. This project illustrates my competence in building complete, scalable web applications from scratch.</li>
-                        <li><strong><a href="https://github.com/YoussM21/3D-Solar-System" target="_blank" style="text-decoration: none; color: #3ec4c4;">3D Solar System:</a></strong>
-                        My first venture into ThreeJS, where I developed a low poly replica of the solar system. This project represents my interest and growing expertise in 3D graphics and game development.</li>
-                    </ul>
-                </div>
+          <h3 class="section-title">Projects</h3>
+          <div class="projects-grid">
+
+            <a href="https://github.com/YoussM21" target="_blank" class="project-card">
+              <div class="project-header">
+                <span class="project-name">This Portfolio</span>
+                <span class="project-arrow">↗</span>
               </div>
-                `,
+              <p class="project-desc">A 3D interactive world with a physics-enabled character and proximity-triggered portals. You're literally inside it right now.</p>
+              <div class="tech-tags">
+                <span class="tech-tag">Three.js</span>
+                <span class="tech-tag">Rapier3D</span>
+                <span class="tech-tag">Zustand</span>
+                <span class="tech-tag">Vite</span>
+              </div>
+            </a>
+
+            <a href="https://github.com/YoussM21/innfinity" target="_blank" class="project-card">
+              <div class="project-header">
+                <span class="project-name">Innfinity</span>
+                <span class="project-arrow">↗</span>
+              </div>
+              <p class="project-desc">Full-stack hotel booking platform with room customization, PostgreSQL database, React frontend and Express backend.</p>
+              <div class="tech-tags">
+                <span class="tech-tag">React</span>
+                <span class="tech-tag">Express</span>
+                <span class="tech-tag">PostgreSQL</span>
+              </div>
+            </a>
+
+            <a href="https://github.com/YoussM21/stellarquest" target="_blank" class="project-card">
+              <div class="project-header">
+                <span class="project-name">StellarQuest</span>
+                <span class="project-arrow">↗</span>
+              </div>
+              <p class="project-desc">Book tickets to other planets and browse NASA's Picture of the Day by date. Space tourism, basically.</p>
+              <div class="tech-tags">
+                <span class="tech-tag">React</span>
+                <span class="tech-tag">NASA API</span>
+              </div>
+            </a>
+
+            <a href="https://github.com/YoussM21/Mealer-App" target="_blank" class="project-card">
+              <div class="project-header">
+                <span class="project-name">Mealer</span>
+                <span class="project-arrow">↗</span>
+              </div>
+              <p class="project-desc">Android app connecting hungry people with home chefs running small food businesses. Uber Eats but personal.</p>
+              <div class="tech-tags">
+                <span class="tech-tag">Java</span>
+                <span class="tech-tag">Android Studio</span>
+                <span class="tech-tag">Firebase</span>
+              </div>
+            </a>
+
+            <a href="https://github.com/YoussM21/3D-Solar-System" target="_blank" class="project-card">
+              <div class="project-header">
+                <span class="project-name">3D Solar System</span>
+                <span class="project-arrow">↗</span>
+              </div>
+              <p class="project-desc">Low-poly solar system replica — my first Three.js project and the one that started the 3D obsession.</p>
+              <div class="tech-tags">
+                <span class="tech-tag">Three.js</span>
+                <span class="tech-tag">WebGL</span>
+              </div>
+            </a>
+
+            <a href="https://github.com/YoussM21/Sweat-giggles2.0" target="_blank" class="project-card">
+              <div class="project-header">
+                <span class="project-name">Sweat & Giggles</span>
+                <span class="project-arrow">↗</span>
+              </div>
+              <p class="project-desc">Fitness booking site for personal trainers and gym classes. Clean UI, simple stack, does what it says.</p>
+              <div class="tech-tags">
+                <span class="tech-tag">HTML</span>
+                <span class="tech-tag">CSS</span>
+                <span class="tech-tag">JavaScript</span>
+              </div>
+            </a>
+
+          </div>
+
+          <div class="modal-footer">
+            <div class="modal-footer-links">
+              <a href="https://github.com/YoussM21" target="_blank" class="footer-link">
+                <img src="../../assets/icons8-github-24.png" alt="GitHub"> See all on GitHub
+              </a>
+            </div>
+          </div>
+        `,
       },
     };
   }
