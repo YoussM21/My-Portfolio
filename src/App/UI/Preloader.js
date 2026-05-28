@@ -85,17 +85,22 @@ export default class Preloader {
         this.loadingScreen.classList.add('fade');
         setTimeout(() => {
             this.loadingScreen.remove();
-            this.startButton.style.display = 'inline';
+            this.startButton.style.display = 'flex';
             this.startButton.classList.add('fadeIn');
 
             this.startButton.addEventListener('click', () => {
-                this.overlay.classList.add('fade');
+                // white flash before the world reveals
+                this.overlay.classList.add('flash');
+                this.startButton.classList.remove('fadeIn');
                 this.startButton.classList.add('fadeOut');
+                setTimeout(() => {
+                    this.overlay.classList.add('fade');
+                }, 80);
                 setTimeout(() => {
                     this.overlay.remove();
                     this.startButton.remove();
-                }, 2000);
-                setTimeout(() => this._showControls(), 800);
+                }, 2200);
+                setTimeout(() => this._showControls(), 900);
             }, { once: true });
         }, 900);
     }
