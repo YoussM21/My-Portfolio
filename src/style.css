@@ -76,100 +76,147 @@ body::after {
 .overlay.flash { background-color: rgba(255, 255, 255, 0.9); }
 .overlay.fade  { opacity: 0; }
 
-/* ── Loading screen ── */
+/* ── Loading screen — forest path receding into fog ── */
 .loading-screen {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 480px;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 65%, #11151c 0%, #05070a 70%, #03050a 100%);
     opacity: 1;
     transition: opacity 0.8s;
     z-index: 9001;
+    overflow: hidden;
 }
 
 .loading-screen.fade { opacity: 0; }
 
-/* Terminal window frame */
-.terminal-window {
-    background: rgba(7, 9, 15, 0.97);
-    border: 1px solid rgba(0, 255, 200, 0.14);
-    border-radius: 10px;
+/* Firefly field — drifts from the edges, gathers as assets load */
+.firefly-field {
+    position: absolute;
+    inset: 0;
     overflow: hidden;
-    box-shadow: 0 0 40px rgba(0, 255, 200, 0.05), 0 20px 60px rgba(0, 0, 0, 0.75);
+    pointer-events: none;
+    --load-progress: 0;
 }
 
-.terminal-topbar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 11px 16px;
-    background: rgba(255, 255, 255, 0.03);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+/* Soft ambient warmth at the gathering center */
+.firefly-field::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50vmin;
+    height: 50vmin;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle,
+        rgba(245, 158, 11, calc(0.05 + 0.08 * var(--load-progress))) 0%,
+        transparent 65%);
+    pointer-events: none;
 }
 
-.terminal-dots       { display: flex; gap: 6px; }
-.terminal-dots span  { width: 11px; height: 11px; border-radius: 50%; }
-.td-red              { background: #ff5f57; }
-.td-yellow           { background: #febc2e; }
-.td-green            { background: #28c840; }
-
-.terminal-title-bar {
-    flex: 1;
-    text-align: center;
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
-    color: var(--color-text-dim);
-    margin-right: 40px;
+.firefly {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--size, 3px);
+    height: var(--size, 3px);
+    border-radius: 50%;
+    background: var(--firefly-color, #ffd27a);
+    box-shadow:
+        0 0 4px var(--firefly-color, #ffd27a),
+        0 0 12px var(--firefly-halo, rgba(245, 184, 0, 0.5)),
+        0 0 24px var(--firefly-halo, rgba(245, 158, 11, 0.2));
+    /* Convergence: as --load-progress goes 0→1, fireflies pull toward center.
+       -50% -50% centers the dot on its computed position. */
+    transform:
+        translate(
+            calc(var(--start-x, 0vmin) * (1 - var(--load-progress, 0)) - 50%),
+            calc(var(--start-y, 0vmin) * (1 - var(--load-progress, 0)) - 50%)
+        );
+    /* Independent gentle drift + pulse, layered via the `translate` property */
+    animation:
+        firefly-drift var(--drift-duration, 6s) ease-in-out infinite alternate var(--drift-delay, 0s),
+        firefly-pulse var(--pulse-duration, 2.4s) ease-in-out infinite var(--pulse-delay, 0s);
 }
 
-.terminal-body {
-    padding: 18px 22px 14px;
-    min-height: 190px;
+@keyframes firefly-drift {
+    0%   { translate: -3px 2px; }
+    50%  { translate: 2px -1px; }
+    100% { translate: 4px -3px; }
+}
+
+@keyframes firefly-pulse {
+    0%, 100% { opacity: 0.35; }
+    50%       { opacity: 1; }
+}
+
+/* Themed firefly variants — one each, teasing the three worlds */
+.firefly.firefly-green {
+    --firefly-color: #6ee7a3;
+    --firefly-halo: rgba(34, 197, 94, 0.55);
+}
+.firefly.firefly-blue {
+    --firefly-color: #8ab4f8;
+    --firefly-halo: rgba(59, 130, 246, 0.55);
+}
+.firefly.firefly-red {
+    --firefly-color: #fca5a5;
+    --firefly-halo: rgba(239, 68, 68, 0.55);
+}
+
+/* Boot log — centered low, like atmospheric subtitles */
+.boot-log {
+    position: absolute;
+    bottom: 64px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(560px, 86vw);
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     gap: 1px;
+    pointer-events: none;
 }
 
-/* Individual terminal lines */
-.terminal-line {
+.boot-log .terminal-line {
     font-family: var(--font-mono);
-    font-size: 0.76rem;
-    line-height: 1.75;
-    color: var(--color-text-muted);
+    font-size: 0.72rem;
+    line-height: 1.7;
+    color: rgba(226, 232, 240, 0.42);
     opacity: 0;
-    transform: translateX(-8px);
-    transition: opacity 0.22s ease, transform 0.22s ease;
+    transform: translateY(4px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
     white-space: pre;
+    text-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
 }
 
-.terminal-line.visible { opacity: 1; transform: translateX(0); }
+.boot-log .terminal-line.visible { opacity: 1; transform: translateY(0); }
 
-.terminal-line.tl-title {
-    color: var(--color-text);
-    font-size: 0.82rem;
+.boot-log .terminal-line.tl-title {
+    color: rgba(226, 232, 240, 0.7);
+    font-size: 0.78rem;
     font-weight: 700;
     letter-spacing: 0.05em;
 }
 
-.terminal-line.tl-divider { color: rgba(255, 255, 255, 0.1); line-height: 1.2; }
-.terminal-line.tl-cmd     { color: rgba(226, 232, 240, 0.55); }
-.terminal-line.tl-label   { color: var(--color-text-muted); letter-spacing: 0.05em; margin-top: 2px; }
-.terminal-line.tl-green   { color: var(--color-green); }
-.terminal-line.tl-cyan    { color: var(--color-cyan); }
-.terminal-line.tl-blue    { color: var(--color-blue); }
-.terminal-line.tl-amber   { color: var(--color-amber); }
-.terminal-line.tl-ready   { color: var(--color-cyan); font-weight: 700; }
+.boot-log .terminal-line.tl-divider { color: rgba(255, 255, 255, 0.08); line-height: 1.2; }
+.boot-log .terminal-line.tl-cmd     { color: rgba(226, 232, 240, 0.4); }
+.boot-log .terminal-line.tl-label   { color: rgba(226, 232, 240, 0.55); letter-spacing: 0.05em; margin-top: 2px; }
+.boot-log .terminal-line.tl-green   { color: var(--color-green); }
+.boot-log .terminal-line.tl-cyan    { color: var(--color-cyan); }
+.boot-log .terminal-line.tl-blue    { color: var(--color-blue); }
+.boot-log .terminal-line.tl-red     { color: var(--color-red); }
+.boot-log .terminal-line.tl-amber   { color: var(--color-amber); }
+.boot-log .terminal-line.tl-ready   { color: var(--color-amber); font-weight: 700; letter-spacing: 0.06em; }
 
-/* Blinking cursor */
-.terminal-cursor {
+/* Cursor — soft amber lantern flicker */
+.boot-log-cursor {
     font-family: var(--font-mono);
-    font-size: 0.76rem;
-    color: var(--color-cyan);
-    line-height: 1.75;
-    animation: blink 1s step-end infinite;
+    font-size: 0.72rem;
+    color: var(--color-amber);
+    line-height: 1.7;
+    animation: blink 1.1s step-end infinite;
+    text-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
 }
 
 @keyframes blink {
@@ -177,40 +224,40 @@ body::after {
     50%       { opacity: 0; }
 }
 
-/* Footer: progress bar */
-.terminal-footer {
+/* Thin progress bar at the very bottom edge */
+.path-progress {
+    position: absolute;
+    left: 36px;
+    right: 36px;
+    bottom: 26px;
     display: flex;
     align-items: center;
     gap: 14px;
-    padding: 12px 22px 16px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.loading-bar-track {
+.path-progress-bar {
     flex: 1;
-    height: 2px;
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 2px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.07);
     overflow: hidden;
 }
 
-.loading-bar-fill {
+.path-progress-fill {
     height: 100%;
     width: 100%;
-    background: var(--color-cyan);
-    border-radius: 2px;
+    background: var(--color-amber);
     transform: scaleX(0);
     transform-origin: left center;
     transition: transform 0.3s ease;
-    box-shadow: 0 0 8px rgba(0, 255, 200, 0.6);
+    box-shadow: 0 0 8px rgba(245, 158, 11, 0.55);
 }
 
-.loading-percent {
+.path-progress-percent {
     font-family: var(--font-mono);
-    font-size: 0.68rem;
-    color: var(--color-text-dim);
-    margin: 0;
+    font-size: 0.64rem;
+    color: rgba(226, 232, 240, 0.32);
     white-space: nowrap;
+    letter-spacing: 0.05em;
 }
 
 /* ── Start / Enter button ── */

@@ -6,7 +6,7 @@ const BOOT_LINES = [
     { text: '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',   cls: 'tl-divider',delay: 120  },
     { text: '',                                    cls: '',          delay: 380  },
     { text: '> Locating clearing...',              cls: 'tl-cmd',   delay: 560  },
-    { text: '> Kindling fog...',                   cls: 'tl-cmd',   delay: 960  },
+    { text: '> Waking the fireflies...',           cls: 'tl-cmd',   delay: 960  },
     { text: '> Lighting lanterns...',              cls: 'tl-cmd',   delay: 1360 },
     { text: '',                                    cls: '',          delay: 1660 },
     { text: 'PORTALS DISCOVERED:',                 cls: 'tl-label', delay: 1820 },
@@ -30,11 +30,21 @@ export default class Preloader {
         this.startButton    = document.querySelector('.start');
         this.terminalBody   = document.getElementById('terminalBody');
         this.cursor         = document.getElementById('terminalCursor');
+        this.fireflyField   = document.getElementById('fireflyField');
 
         this.bootDone   = false;
         this.assetsDone = false;
 
+        // Visual progress lerps toward asset progress so the firefly gathering
+        // reads as a real animation even when assets load instantly from cache.
+        this._visualProgress = 0;
+        this._visualTarget   = 0;
+        this._tickVisualProgress();
+
+        this._spawnFireflies();
         this._runBootLines();
+
+        this.percentageEl = document.getElementById('progressPercentage');
 
         assetStore.subscribe((state) => {
             const loaded = Object.keys(state.loadedAssets).length;
@@ -42,8 +52,7 @@ export default class Preloader {
             if (total === 0) return;
 
             const pct = Math.trunc((loaded / total) * 100);
-            document.getElementById('progressPercentage').textContent = pct;
-            if (this.loadingBarFill) this.loadingBarFill.style.transform = `scaleX(${pct / 100})`;
+            this._visualTarget = pct / 100;
 
             if (pct === 100 && !this.assetsDone) {
                 this.assetsDone = true;
@@ -51,6 +60,56 @@ export default class Preloader {
                 this._tryShowReady();
             }
         });
+    }
+
+    _tickVisualProgress() {
+        // Smooth exponential ease toward the target. k ≈ 0.012 reaches ~90% of
+        // a step in ~3s at 60fps — slow enough to read as gathering.
+        this._visualProgress += (this._visualTarget - this._visualProgress) * 0.012;
+        if (this.fireflyField) {
+            this.fireflyField.style.setProperty('--load-progress', this._visualProgress);
+        }
+        if (this.loadingBarFill) {
+            this.loadingBarFill.style.transform = `scaleX(${this._visualProgress})`;
+        }
+        if (this.percentageEl) {
+            this.percentageEl.textContent = Math.round(this._visualProgress * 100);
+        }
+        requestAnimationFrame(() => this._tickVisualProgress());
+    }
+
+    _spawnFireflies() {
+        if (!this.fireflyField) return;
+        const COUNT = 38;
+        // One firefly per themed world — green / blue / red — rest amber.
+        const themedSlots = new Set([6, 17, 28]);
+        const themedClasses = ['firefly-green', 'firefly-blue', 'firefly-red'];
+
+        for (let i = 0; i < COUNT; i++) {
+            const f = document.createElement('div');
+            f.className = 'firefly';
+            if (themedSlots.has(i)) {
+                f.classList.add(themedClasses.shift());
+            }
+            // Scatter across the viewport: 15-45 vmin from center in a random direction.
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 15 + Math.random() * 30;
+            const x = Math.cos(angle) * distance;
+            const y = Math.sin(angle) * distance;
+            const driftDuration = 4 + Math.random() * 5;
+            const pulseDuration = 1.6 + Math.random() * 2;
+            const size = 2 + Math.random() * 2;
+
+            f.style.setProperty('--start-x', `${x}vmin`);
+            f.style.setProperty('--start-y', `${y}vmin`);
+            f.style.setProperty('--drift-duration', `${driftDuration}s`);
+            f.style.setProperty('--drift-delay', `${-Math.random() * driftDuration}s`);
+            f.style.setProperty('--pulse-duration', `${pulseDuration}s`);
+            f.style.setProperty('--pulse-delay', `${-Math.random() * pulseDuration}s`);
+            f.style.setProperty('--size', `${size.toFixed(2)}px`);
+
+            this.fireflyField.appendChild(f);
+        }
     }
 
     _addLine(text, cls) {
