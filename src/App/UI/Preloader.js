@@ -85,6 +85,8 @@ export default class Preloader {
         const themedSlots = new Set([6, 17, 28]);
         const themedClasses = ['firefly-green', 'firefly-blue', 'firefly-red'];
 
+        this._fireflies = [];
+
         for (let i = 0; i < COUNT; i++) {
             const f = document.createElement('div');
             f.className = 'firefly';
@@ -108,8 +110,37 @@ export default class Preloader {
             f.style.setProperty('--pulse-delay', `${-Math.random() * pulseDuration}s`);
             f.style.setProperty('--size', `${size.toFixed(2)}px`);
 
+            this._fireflies.push({ el: f, angle });
             this.fireflyField.appendChild(f);
         }
+    }
+
+    _enterPhase() {
+        // Expand the gathered swarm into a ring around the ENTER text.
+        if (!this.fireflyField || !this._fireflies) return;
+        const radius = 130; // px
+        for (const { el, angle } of this._fireflies) {
+            const tx = Math.cos(angle) * radius;
+            const ty = Math.sin(angle) * radius;
+            el.style.setProperty('--target-x', `${tx.toFixed(1)}px`);
+            el.style.setProperty('--target-y', `${ty.toFixed(1)}px`);
+        }
+        this.fireflyField.classList.add('enter-phase');
+    }
+
+    _scatterFireflies() {
+        // Each firefly flies outward along its original angle and fades.
+        if (!this.fireflyField || !this._fireflies) return;
+        for (const { el, angle } of this._fireflies) {
+            const distance = 60 + Math.random() * 40; // vmin
+            const sx = Math.cos(angle) * distance;
+            const sy = Math.sin(angle) * distance;
+            el.style.setProperty('--scatter-x', `${sx.toFixed(1)}vmin`);
+            el.style.setProperty('--scatter-y', `${sy.toFixed(1)}vmin`);
+        }
+        // Removing enter-phase prevents the hover rule from outranking scatter.
+        this.fireflyField.classList.remove('enter-phase');
+        this.fireflyField.classList.add('scatter');
     }
 
     _addLine(text, cls) {
@@ -142,6 +173,8 @@ export default class Preloader {
     }
 
     _showEnter() {
+        // Expand the swarm into a ring while the boot log + bar fade out.
+        this._enterPhase();
         this.loadingScreen.classList.add('fade');
         setTimeout(() => {
             this.loadingScreen.remove();
@@ -149,7 +182,7 @@ export default class Preloader {
             this.startButton.classList.add('fadeIn');
 
             this.startButton.addEventListener('click', () => {
-                // white flash before the world reveals
+                this._scatterFireflies();
                 this.overlay.classList.add('flash');
                 this.startButton.classList.remove('fadeIn');
                 this.startButton.classList.add('fadeOut');
@@ -159,6 +192,7 @@ export default class Preloader {
                 setTimeout(() => {
                     this.overlay.remove();
                     this.startButton.remove();
+                    if (this.fireflyField) this.fireflyField.remove();
                 }, 2200);
                 setTimeout(() => this._showControls(), 900);
             }, { once: true });

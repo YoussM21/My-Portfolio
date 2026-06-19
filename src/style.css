@@ -89,12 +89,16 @@ body::after {
 
 .loading-screen.fade { opacity: 0; }
 
-/* Firefly field — drifts from the edges, gathers as assets load */
+/* Firefly field — drifts from the edges, gathers as assets load.
+   z-index 9002 sits above .overlay (9000) AND the loading-screen (9001) so
+   fireflies render on top of the loading-screen's dark backdrop. The boot
+   log's text-shadow keeps it readable when a firefly drifts past. */
 .firefly-field {
-    position: absolute;
+    position: fixed;
     inset: 0;
     overflow: hidden;
     pointer-events: none;
+    z-index: 9002;
     --load-progress: 0;
 }
 
@@ -162,6 +166,35 @@ body::after {
 .firefly.firefly-red {
     --firefly-color: #fca5a5;
     --firefly-halo: rgba(239, 68, 68, 0.55);
+}
+
+/* Enter phase — fireflies expand from the centered swarm into a ring
+   around the ENTER text. JS sets per-firefly --target-x/--target-y. */
+.firefly-field.enter-phase .firefly {
+    transform: translate(
+        calc(var(--target-x, 0px) - 50%),
+        calc(var(--target-y, 0px) - 50%)
+    );
+    transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Hover tightens the ring (uses :has() — Chrome 105+, Safari 15.4+, FF 121+) */
+.firefly-field.enter-phase:has(~ .start:hover) .firefly {
+    transform: translate(
+        calc(var(--target-x, 0px) * 0.72 - 50%),
+        calc(var(--target-y, 0px) * 0.72 - 50%)
+    );
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Click scatter — fireflies fly outward + fade out */
+.firefly-field.scatter .firefly {
+    transform: translate(
+        calc(var(--scatter-x, 0vmin) - 50%),
+        calc(var(--scatter-y, 0vmin) - 50%)
+    );
+    transition: transform 0.9s cubic-bezier(0.34, 1.4, 0.64, 1), opacity 0.9s ease;
+    opacity: 0;
 }
 
 /* Boot log — centered low, like atmospheric subtitles */
@@ -260,7 +293,7 @@ body::after {
     letter-spacing: 0.05em;
 }
 
-/* ── Start / Enter button ── */
+/* ── Start / Enter button — the firefly ring is the visual frame ── */
 .start {
     position: fixed;
     top: 50%;
@@ -269,58 +302,54 @@ body::after {
     display: none;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-    border: 1px solid rgba(0, 255, 200, 0.55);
-    color: var(--color-cyan);
-    background-color: transparent;
-    padding: 22px 56px;
-    border-radius: 4px;
+    gap: 18px;
+    border: none;
+    background: transparent;
+    padding: 0;
     cursor: pointer;
     opacity: 0;
-    transition: opacity 0.6s, background-color var(--transition-fast), color var(--transition-fast), box-shadow 0.3s;
+    transition: opacity 0.8s ease;
     z-index: 9002;
     text-align: center;
 }
 
 .start-label {
     font-family: var(--font-display);
-    font-size: 1.5rem;
+    font-size: 2.1rem;
     font-weight: 700;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.32em;
     line-height: 1;
+    color: var(--color-amber);
+    padding-left: 0.32em; /* visual balance against trailing letter-spacing */
+    text-shadow:
+        0 0 14px rgba(245, 158, 11, 0.45),
+        0 0 36px rgba(245, 158, 11, 0.15);
+    transition: text-shadow 0.4s ease, letter-spacing 0.4s ease;
 }
 
 .start-sub {
     font-family: var(--font-body);
     font-size: 0.72rem;
-    color: rgba(0, 255, 200, 0.45);
-    letter-spacing: 0.06em;
+    color: rgba(245, 158, 11, 0.5);
+    letter-spacing: 0.08em;
     font-style: italic;
+    transition: color 0.3s ease;
 }
 
-.start.fadeIn {
-    opacity: 1;
-    animation: enter-pulse 2.8s ease-in-out infinite 0.6s;
-}
-
-.start.fadeOut {
-    opacity: 0;
-    animation: none;
-}
-
-@keyframes enter-pulse {
-    0%, 100% { box-shadow: none;                                                                    border-color: rgba(0, 255, 200, 0.55); }
-    50%       { box-shadow: 0 0 28px rgba(0, 255, 200, 0.2), 0 0 60px rgba(0, 255, 200, 0.08);     border-color: rgba(0, 255, 200, 0.9); }
-}
+.start.fadeIn  { opacity: 1; }
+.start.fadeOut { opacity: 0; }
 
 @media (hover: hover) and (pointer: fine) {
-    .start:hover {
-        background-color: var(--color-cyan);
-        color: var(--color-bg);
-        box-shadow: 0 0 40px rgba(0, 255, 200, 0.3);
-        animation: none;
+    .start:hover .start-label {
+        letter-spacing: 0.38em;
+        padding-left: 0.38em;
+        text-shadow:
+            0 0 18px rgba(245, 158, 11, 0.7),
+            0 0 48px rgba(245, 158, 11, 0.35);
     }
-    .start:hover .start-sub { color: rgba(7, 9, 15, 0.55); }
+    .start:hover .start-sub {
+        color: rgba(245, 158, 11, 0.75);
+    }
 }
 
 /* ── Controls overlay ── */
