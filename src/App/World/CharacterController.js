@@ -22,13 +22,6 @@ export default class CharacterController {
     }
 
     instantiateController() {
-        // Check if physics is ready before proceeding
-        if (!this.physics.rapier) {
-            console.warn("Physics not ready. Retrying in 100ms...");
-            setTimeout(() => this.instantiateController(), 100);
-            return;
-        }
-
         // create a kinematic rigid body
         this.rigidBodyType = this.physics.rapier.RigidBodyDesc.kinematicPositionBased();
         this.rigidBody = this.physics.world.createRigidBody(this.rigidBodyType);

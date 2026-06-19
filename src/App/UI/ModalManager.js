@@ -1,18 +1,28 @@
 const THEMES = {
     amber: {
         accentColor: '#f59e0b',
-        label: 'PLAYER.INFO',
-        tags: `<span class="modal-tag tag-amber">📸 photography</span><span class="modal-tag tag-green">⚽ soccer</span>`,
+        label: 'INBOX',
+        tags: '',
     },
     blue: {
         accentColor: '#3b82f6',
-        label: 'CAREER.LOG',
+        label: 'BUILD.DIR',
         tags: `<span class="modal-tag tag-blue">🔐 cyber ops</span><span class="modal-tag tag-cyan">🎮 game dev</span>`,
     },
     cyan: {
         accentColor: '#00ffc8',
         label: 'BUILD.DIR',
         tags: `<span class="modal-tag tag-cyan">🎮 game dev</span><span class="modal-tag tag-blue">🔐 cyber ops</span>`,
+    },
+    green: {
+        accentColor: '#22c55e',
+        label: 'PLAYER.INFO',
+        tags: `<span class="modal-tag tag-green">⚽ soccer</span><span class="modal-tag tag-cyan">🎮 game dev</span>`,
+    },
+    red: {
+        accentColor: '#ef4444',
+        label: 'DARKROOM',
+        tags: `<span class="modal-tag tag-red">📸 photography</span><span class="modal-tag tag-blue">🔐 cyber ops</span>`,
     },
 };
 

@@ -4,6 +4,20 @@ import assetStore from '../Utils/AssetStore';
 import Portal from './Portal';
 import ModelContentProvider from '../UI/ModelContentProvider';
 
+// Portal binding: maps GLB mesh name → content key.
+// Current environment.glb uses the legacy names; flip the comments when the
+// forest GLB lands (mesh names defined in FOREST_SPEC.md §2).
+const PORTAL_BINDINGS = [
+    { meshName: 'portals',    contentKey: 'aboutMe' },
+    { meshName: 'portals001', contentKey: 'projects' },
+    { meshName: 'portals002', contentKey: 'myexperience' },
+    // forest GLB (Phase A complete):
+    // { meshName: 'portal_soccer',  contentKey: 'aboutMe' },
+    // { meshName: 'portal_cyber',   contentKey: 'projects' },
+    // { meshName: 'portal_photo',   contentKey: 'myexperience' },
+    // { meshName: 'contact_letter', contentKey: 'contact' },
+];
+
 export default class Environment {
     constructor() {
         this.app = new App();
@@ -11,6 +25,8 @@ export default class Environment {
         this.physics = this.app.world.physics;
         this.assetStore = assetStore.getState();
         this.environment = this.assetStore.loadedAssets.environment;
+        this.scene.fog = new THREE.FogExp2(0x0a0d12, 0.045);
+        this.scene.background = new THREE.Color(0x0a0d12);
         this.loadEnvironment();
         this.addLights();
         this.addPortals();
@@ -84,42 +100,42 @@ export default class Environment {
 
 
     addLights() {
-        //lighting
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        // Cool low ambient — the forest reads as moonlit, not daylit.
+        const ambientLight = new THREE.AmbientLight(0x6b88a0, 0.15);
         this.scene.add(ambientLight);
 
-        this.directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-        this.directionalLight.position.set(1, 1, 1);
-        this.directionalLight.castShadow = true;
-        this.directionalLight.shadow.camera.top = 30;
-        this.directionalLight.shadow.camera.bottom = -30;
-        this.directionalLight.shadow.camera.left = -30;
-        this.directionalLight.shadow.camera.right = 30;
-        this.directionalLight.shadow.bias = -0.002;
-        this.directionalLight.shadow.normalBias = 0.072;
+        // Amber rim from low-front: warmth on the character and portal faces.
+        this.amberRim = new THREE.DirectionalLight(0xf59e0b, 0.4);
+        this.amberRim.position.set(6, 4, 8);
+        this.scene.add(this.amberRim);
 
-
-
-        this.scene.add(this.directionalLight);
+        // Cyan rim from high-back: cold edge light, depth separation in fog.
+        this.cyanRim = new THREE.DirectionalLight(0x00ffc8, 0.4);
+        this.cyanRim.position.set(-6, 12, -8);
+        this.cyanRim.castShadow = true;
+        this.cyanRim.shadow.camera.top = 30;
+        this.cyanRim.shadow.camera.bottom = -30;
+        this.cyanRim.shadow.camera.left = -30;
+        this.cyanRim.shadow.camera.right = 30;
+        this.cyanRim.shadow.bias = -0.002;
+        this.cyanRim.shadow.normalBias = 0.072;
+        this.scene.add(this.cyanRim);
     }
 
     addPortals() {
-
-        const portalMesh1 = this.environment.scene.getObjectByName('portals');
-        const portalMesh2 = this.environment.scene.getObjectByName('portals001');
-        const portalMesh3 = this.environment.scene.getObjectByName('portals002');
-
         const modelContentProvider = new ModelContentProvider();
 
-       this.portal1 = new Portal(portalMesh1, modelContentProvider.getModalInfo('aboutMe'));
-       this.portal2 = new Portal(portalMesh2, modelContentProvider.getModalInfo('projects'));
-       this.portal3 = new Portal(portalMesh3, modelContentProvider.getModalInfo('myexperience'));
+        this.portals = PORTAL_BINDINGS
+            .map(({ meshName, contentKey }) => {
+                const mesh = this.environment.scene.getObjectByName(meshName);
+                if (!mesh) return null;
+                return new Portal(mesh, modelContentProvider.getModalInfo(contentKey));
+            })
+            .filter(Boolean);
     }
 
     loop(){
-        this.portal1.loop();
-        this.portal2.loop();
-        this.portal3.loop();
+        for (const portal of this.portals) portal.loop();
     }
 
 }

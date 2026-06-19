@@ -6,6 +6,8 @@ const THEME_COLORS = {
     amber: 0xf59e0b,
     blue:  0x3b82f6,
     cyan:  0x00ffc8,
+    green: 0x22c55e,
+    red:   0xef4444,
 };
 
 export default class Portal {

@@ -4,7 +4,7 @@ export default class ModelContentProvider {
   constructor() {
     this.modalContents = {
       aboutMe: {
-        theme: 'amber',
+        theme: 'green',
         title: `Hi, I'm Youssef.`,
         description: `
           <div class="about-header">
@@ -40,7 +40,7 @@ export default class ModelContentProvider {
         `,
       },
       myexperience: {
-        theme: 'blue',
+        theme: 'red',
         title: `My Experience`,
         description: `
           <div class="exp-list">
@@ -106,7 +106,7 @@ export default class ModelContentProvider {
         `,
       },
       projects: {
-        theme: 'cyan',
+        theme: 'blue',
         title: `My Projects`,
         description: `
           <div class="projects-grid">
@@ -196,6 +196,31 @@ export default class ModelContentProvider {
                 <img src="../../assets/icons8-github-24.png" alt="GitHub"> See all on GitHub
               </a>
             </div>
+          </div>
+        `,
+      },
+      contact: {
+        theme: 'amber',
+        title: `Drop a line.`,
+        description: `
+          <p>The fastest way to reach me is email. I read everything — even cold ones.</p>
+          <p>If you want to see what I'm working on, GitHub and LinkedIn are the most current. The resume below is a tidier overview.</p>
+
+          <div class="modal-footer">
+            <div class="modal-footer-links">
+              <a href="mailto:mroueh.youssef10@gmail.com" class="footer-link">
+                <img src="../../assets/icons8-mail-24.png" alt="Email"> mroueh.youssef10@gmail.com
+              </a>
+              <a href="https://www.linkedin.com/in/youssefmroue/" target="_blank" class="footer-link">
+                <img src="../../assets/icons8-linkedin-24.png" alt="LinkedIn"> LinkedIn
+              </a>
+              <a href="https://github.com/YoussM21" target="_blank" class="footer-link">
+                <img src="../../assets/icons8-github-24.png" alt="GitHub"> GitHub
+              </a>
+            </div>
+            <a href="https://youssef-mroue-resume.tiiny.site" target="_blank" class="footer-link">
+              <img src="../../assets/icons8-resume-24.png" alt="Resume"> View Resume ↗
+            </a>
           </div>
         `,
       },

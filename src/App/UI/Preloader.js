@@ -5,20 +5,21 @@ const BOOT_LINES = [
     { text: 'YOUSSEF.EXE  —  v4.0',             cls: 'tl-title',  delay: 0    },
     { text: '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',   cls: 'tl-divider',delay: 120  },
     { text: '',                                    cls: '',          delay: 380  },
-    { text: '> Scanning for player data...',       cls: 'tl-cmd',   delay: 560  },
-    { text: '> Compiling world geometry...',       cls: 'tl-cmd',   delay: 960  },
-    { text: '',                                    cls: '',          delay: 1260 },
-    { text: 'ATTRIBUTES DETECTED:',                cls: 'tl-label', delay: 1460 },
-    { text: '  ⚽  MIDFIELDER ......... LOADED', cls: 'tl-green', delay: 1820 },
-    { text: '  🎮  GAME DEV ........... LOADED', cls: 'tl-cyan',  delay: 2160 },
-    { text: '  🔐  CYBER OPS .......... LOADED', cls: 'tl-blue',  delay: 2500 },
-    { text: '  📸  PHOTOGRAPHER ....... LOADED', cls: 'tl-amber', delay: 2840 },
+    { text: '> Locating clearing...',              cls: 'tl-cmd',   delay: 560  },
+    { text: '> Kindling fog...',                   cls: 'tl-cmd',   delay: 960  },
+    { text: '> Lighting lanterns...',              cls: 'tl-cmd',   delay: 1360 },
+    { text: '',                                    cls: '',          delay: 1660 },
+    { text: 'PORTALS DISCOVERED:',                 cls: 'tl-label', delay: 1820 },
+    { text: '  ⚽  THE PITCH ............ READY', cls: 'tl-green', delay: 2180 },
+    { text: '  🔐  THE TERMINAL ......... READY', cls: 'tl-blue',  delay: 2520 },
+    { text: '  📸  THE DARKROOM ......... READY', cls: 'tl-red',   delay: 2860 },
+    { text: '  📨  A LETTER ............. WAITS', cls: 'tl-amber', delay: 3200 },
 ];
 
 const READY_LINES = [
     { text: '',                       cls: '',         delay: 0   },
-    { text: '> All systems nominal.', cls: 'tl-cmd',  delay: 200 },
-    { text: '> WORLD READY.',         cls: 'tl-ready',delay: 520 },
+    { text: '> The path is clear.',   cls: 'tl-cmd',  delay: 200 },
+    { text: '> ENTER WHEN READY.',    cls: 'tl-ready',delay: 520 },
 ];
 
 export default class Preloader {
@@ -42,7 +43,7 @@ export default class Preloader {
 
             const pct = Math.trunc((loaded / total) * 100);
             document.getElementById('progressPercentage').textContent = pct;
-            if (this.loadingBarFill) this.loadingBarFill.style.width = pct + '%';
+            if (this.loadingBarFill) this.loadingBarFill.style.transform = `scaleX(${pct / 100})`;
 
             if (pct === 100 && !this.assetsDone) {
                 this.assetsDone = true;

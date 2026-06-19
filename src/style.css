@@ -4,8 +4,10 @@
     --color-blue:          #3b82f6;
     --color-green:         #22c55e;
     --color-amber:         #f59e0b;
+    --color-red:           #ef4444;
 
     --color-bg:            #07090f;
+    --color-fog:           #0a0d12;
     --color-surface:       rgba(7, 9, 15, 0.88);
     --color-border:        rgba(255, 255, 255, 0.08);
     --color-border-accent: rgba(0, 255, 200, 0.2);
@@ -194,10 +196,12 @@ body::after {
 
 .loading-bar-fill {
     height: 100%;
-    width: 0%;
+    width: 100%;
     background: var(--color-cyan);
     border-radius: 2px;
-    transition: width 0.3s ease;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.3s ease;
     box-shadow: 0 0 8px rgba(0, 255, 200, 0.6);
 }
 
@@ -362,9 +366,9 @@ body::after {
     align-items: center;
     justify-content: center;
     border: 1px solid rgba(0, 255, 200, 0.4);
-    border-bottom: 3px solid rgba(0, 255, 200, 0.4);
     border-radius: 6px;
     background: rgba(0, 255, 200, 0.08);
+    box-shadow: inset 0 -2px 0 rgba(0, 255, 200, 0.4);
     font-family: var(--font-mono);
     font-size: 0.85rem;
     font-weight: 700;
@@ -531,6 +535,7 @@ body::after {
 .modal-tag.tag-green { color: var(--color-green); border-color: rgba(34, 197, 94,  0.35); background: rgba(34, 197, 94,  0.08); }
 .modal-tag.tag-blue  { color: var(--color-blue);  border-color: rgba(59, 130, 246, 0.35); background: rgba(59, 130, 246, 0.08); }
 .modal-tag.tag-cyan  { color: var(--color-cyan);  border-color: rgba(0, 255, 200,  0.3);  background: rgba(0, 255, 200,  0.08); }
+.modal-tag.tag-red   { color: var(--color-red);   border-color: rgba(239, 68,  68,  0.35); background: rgba(239, 68,  68,  0.08); }
 
 /* Gradient divider */
 .modal-rule {
